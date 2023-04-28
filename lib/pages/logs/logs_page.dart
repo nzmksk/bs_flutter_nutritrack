@@ -10,6 +10,16 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return const Text('Home');
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: const [
+        Center(
+          child: Text(
+            'No record available!',
+            style: TextStyle(fontSize: 14),
+          ),
+        ),
+      ],
+    );
   }
 }
