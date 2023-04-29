@@ -30,12 +30,22 @@ class _RootPageState extends State<RootPage> {
             case NavBarItem.exercise:
               return const ExercisePage();
             case NavBarItem.logs:
-              return const HomePage();
+              return const LogsPage();
             case NavBarItem.summary:
               return const SummaryPage();
             case NavBarItem.profile:
               return const ProfilePage();
           }
+        },
+      ),
+      floatingActionButton: BlocBuilder<NavigationCubit, NavigationState>(
+        builder: (context, state) {
+          return state.navBarItem == NavBarItem.logs
+              ? FloatingActionButton(
+                  onPressed: () {},
+                  child: const Icon(Icons.add),
+                )
+              : Container();
         },
       ),
       bottomNavigationBar: BlocBuilder<NavigationCubit, NavigationState>(
@@ -45,27 +55,22 @@ class _RootPageState extends State<RootPage> {
               BottomNavigationBarItem(
                 icon: Icon(Icons.restaurant_menu_outlined),
                 label: 'Nutrition',
-                // tooltip: 'Food nutrition info',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.fitness_center_outlined),
                 label: 'Exercise',
-                // tooltip: 'Exercise calories info',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.event_note_outlined),
                 label: 'Logs',
-                // tooltip: 'Calorie logs',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.timeline_outlined),
                 label: 'Summary',
-                // tooltip: 'Report summary',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.person_outline_outlined),
                 label: 'Profile',
-                // tooltip: 'Personal info',
               ),
             ],
             type: BottomNavigationBarType.fixed,
