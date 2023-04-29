@@ -15,8 +15,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider<AppBarTitleCubit>(
+          create: (BuildContext context) => AppBarTitleCubit(),
+        ),
         BlocProvider<NavigationCubit>(
-            create: (BuildContext context) => NavigationCubit()),
+          create: (BuildContext context) => NavigationCubit(),
+        ),
       ],
       child: MaterialApp(
         title: 'NutriTrack',

@@ -16,8 +16,10 @@ class _RootPageState extends State<RootPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Root page',
+        title: BlocBuilder<AppBarTitleCubit, AppBarTitleState>(
+          builder: (context, state) {
+            return Text(state.appBarTitle);
+          },
         ),
       ),
       body: BlocBuilder<NavigationCubit, NavigationState>(
@@ -67,8 +69,9 @@ class _RootPageState extends State<RootPage> {
               ),
             ],
             type: BottomNavigationBarType.fixed,
-            currentIndex: state.index,
+            currentIndex: state.currentIndex,
             onTap: (index) {
+              BlocProvider.of<AppBarTitleCubit>(context).getAppBarTitle(index);
               switch (index) {
                 case 0:
                   BlocProvider.of<NavigationCubit>(context)
