@@ -16,7 +16,9 @@ class _LogsPageState extends State<LogsPage> {
         Center(
           child: Text(
             'No record available!',
-            style: TextStyle(fontSize: 14),
+            style: TextStyle(
+              fontSize: 14,
+            ),
           ),
         ),
       ],
