@@ -27,6 +27,9 @@ class MyApp extends StatelessWidget {
         BlocProvider<AppBarTitleCubit>(
           create: (BuildContext context) => AppBarTitleCubit(),
         ),
+        BlocProvider<ExpandableFABCubit>(
+          create: (BuildContext context) => ExpandableFABCubit(),
+        ),
         BlocProvider<NavigationCubit>(
           create: (BuildContext context) => NavigationCubit(),
         ),

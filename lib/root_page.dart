@@ -42,9 +42,18 @@ class _RootPageState extends State<RootPage> {
       floatingActionButton: BlocBuilder<NavigationCubit, NavigationState>(
         builder: (context, state) {
           return state.navBarItem == NavBarItem.logs
-              ? FloatingActionButton(
-                  onPressed: () {},
-                  child: const Icon(Icons.add),
+              ? const ExpandableFAB(
+                  children: [
+                    ActionButton(
+                      icon: Icon(Icons.dinner_dining_outlined),
+                    ),
+                    ActionButton(
+                      icon: Icon(Icons.fitness_center_outlined),
+                    ),
+                    ActionButton(
+                      icon: Icon(Icons.monitor_weight_outlined),
+                    ),
+                  ],
                 )
               : Container();
         },
