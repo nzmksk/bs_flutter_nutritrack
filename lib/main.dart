@@ -27,9 +27,6 @@ class MyApp extends StatelessWidget {
         BlocProvider<AppBarTitleCubit>(
           create: (BuildContext context) => AppBarTitleCubit(),
         ),
-        BlocProvider<ExpandableFABCubit>(
-          create: (BuildContext context) => ExpandableFABCubit(),
-        ),
         BlocProvider<NavigationCubit>(
           create: (BuildContext context) => NavigationCubit(),
         ),
@@ -40,6 +37,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         home: const RootPage(),
+        debugShowCheckedModeBanner: false,
       ),
     );
   }

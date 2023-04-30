@@ -42,16 +42,20 @@ class _RootPageState extends State<RootPage> {
       floatingActionButton: BlocBuilder<NavigationCubit, NavigationState>(
         builder: (context, state) {
           return state.navBarItem == NavBarItem.logs
-              ? const ExpandableFAB(
+              ? const NutriTrackExpandableFab(
+                  distance: 112.0,
                   children: [
                     ActionButton(
-                      icon: Icon(Icons.dinner_dining_outlined),
+                      icon: Icon(Icons.dining_outlined),
+                      tooltip: 'Add calorie intake',
                     ),
                     ActionButton(
                       icon: Icon(Icons.fitness_center_outlined),
+                      tooltip: 'Add calorie burnt',
                     ),
                     ActionButton(
                       icon: Icon(Icons.monitor_weight_outlined),
+                      tooltip: 'Update weight',
                     ),
                   ],
                 )
