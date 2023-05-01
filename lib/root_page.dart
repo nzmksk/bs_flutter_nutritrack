@@ -13,9 +13,7 @@ class RootPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: BlocBuilder<AppBarTitleCubit, AppBarTitleState>(
-          builder: (context, state) {
-            return Text(state.appBarTitle);
-          },
+          builder: (context, state) => Text(state.appBarTitle),
         ),
       ),
       body: BlocBuilder<NavigationCubit, NavigationState>(
@@ -40,23 +38,23 @@ class RootPage extends StatelessWidget {
               ? NutriTrackExpandableFab(
                   distance: 112.0,
                   children: [
-                    ActionButton(
+                    NutriTrackActionButton(
                       icon: const Icon(Icons.dining_outlined),
                       tooltip: 'Add calorie intake',
                       onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const AddCalorieIntake(),
+                            builder: (context) => const AddFood(),
                           ),
                         );
                       },
                     ),
-                    const ActionButton(
+                    const NutriTrackActionButton(
                       icon: Icon(Icons.fitness_center_outlined),
                       tooltip: 'Add calorie burnt',
                     ),
-                    const ActionButton(
+                    const NutriTrackActionButton(
                       icon: Icon(Icons.monitor_weight_outlined),
                       tooltip: 'Update weight',
                     ),

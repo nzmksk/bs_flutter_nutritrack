@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 import '../../custom_widgets/custom_widgets.dart';
 
-class AddCalorieIntake extends StatelessWidget {
-  const AddCalorieIntake({super.key});
+class AddFood extends StatelessWidget {
+  const AddFood({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,9 +13,7 @@ class AddCalorieIntake extends StatelessWidget {
         title: const Text('Add Food'),
         leading: IconButton(
           icon: const Icon(Icons.close),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          onPressed: () => Navigator.pop(context),
         ),
         actions: [
           Padding(

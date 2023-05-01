@@ -50,11 +50,7 @@ class _NutriTrackExpandableFabState extends State<NutriTrackExpandableFab>
   void _toggle() {
     setState(() {
       _open = !_open;
-      if (_open) {
-        _controller.forward();
-      } else {
-        _controller.reverse();
-      }
+      _open ? _controller.forward() : _controller.reverse();
     });
   }
 
@@ -177,37 +173,6 @@ class _ExpandingActionButton extends StatelessWidget {
       child: FadeTransition(
         opacity: progress,
         child: child,
-      ),
-    );
-  }
-}
-
-@immutable
-class ActionButton extends StatelessWidget {
-  const ActionButton({
-    super.key,
-    this.onPressed,
-    required this.icon,
-    required this.tooltip,
-  });
-
-  final VoidCallback? onPressed;
-  final Widget icon;
-  final String tooltip;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Material(
-      shape: const CircleBorder(),
-      clipBehavior: Clip.antiAlias,
-      color: theme.colorScheme.secondary,
-      elevation: 4.0,
-      child: IconButton(
-        onPressed: onPressed,
-        icon: icon,
-        tooltip: tooltip,
-        color: theme.colorScheme.onSecondary,
       ),
     );
   }
