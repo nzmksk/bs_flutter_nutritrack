@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 
-class NutritionPage extends StatefulWidget {
+class NutritionPage extends StatelessWidget {
   const NutritionPage({super.key});
 
-  @override
-  State<NutritionPage> createState() => _NutritionPageState();
-}
-
-class _NutritionPageState extends State<NutritionPage> {
   @override
   Widget build(BuildContext context) {
     return const Text('Nutrition');

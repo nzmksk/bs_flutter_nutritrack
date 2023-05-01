@@ -5,14 +5,9 @@ import 'cubits/cubits.dart';
 import 'custom_widgets/custom_widgets.dart';
 import 'pages/pages.dart';
 
-class RootPage extends StatefulWidget {
+class RootPage extends StatelessWidget {
   const RootPage({super.key});
 
-  @override
-  State<RootPage> createState() => _RootPageState();
-}
-
-class _RootPageState extends State<RootPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

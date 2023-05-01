@@ -1,50 +1,98 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class AddCalorieIntake extends StatefulWidget {
+import '../../custom_widgets/custom_widgets.dart';
+
+class AddCalorieIntake extends StatelessWidget {
   const AddCalorieIntake({super.key});
 
-  @override
-  State<AddCalorieIntake> createState() => _AddCalorieIntakeState();
-}
-
-class _AddCalorieIntakeState extends State<AddCalorieIntake> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add calorie log'),
+        title: const Text('Add Food'),
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: IconButton(
+              onPressed: () {
+                showSearch(
+                  context: context,
+                  delegate: SearchNutritionInfo(),
+                );
+              },
+              icon: const Icon(Icons.search_outlined),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                IconData(0xf586,
+                    fontFamily: CupertinoIcons.iconFont,
+                    fontPackage: CupertinoIcons.iconFontPackage),
+              ),
+            ),
+          ),
+        ],
       ),
-      body: Container(
-        padding: const EdgeInsets.all(20.0),
-        child: ListView(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextFormField(
-              decoration: const InputDecoration(
-                labelText: 'Serving Size',
+            Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: OutlinedButton(
+                onPressed: () {},
+                style: OutlinedButton.styleFrom(
+                  minimumSize: const Size(200, 50),
+                ),
+                child: const Text(
+                  'Search Food',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: OutlinedButton(
+                onPressed: () {},
+                style: OutlinedButton.styleFrom(
+                  minimumSize: const Size(200, 50),
+                ),
+                child: const Text(
+                  'Scan Barcode',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: OutlinedButton(
+                onPressed: () {},
+                style: OutlinedButton.styleFrom(
+                  minimumSize: const Size(200, 50),
+                ),
+                child: const Text(
+                  'Quick Add',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  OutlinedButton myBtn() {
-    return OutlinedButton(
-      onPressed: () {},
-      style: OutlinedButton.styleFrom(
-        minimumSize: const Size(200, 50),
-      ),
-      child: const Text(
-        'Add',
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
         ),
       ),
     );
