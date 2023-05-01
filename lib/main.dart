@@ -7,7 +7,7 @@ import 'cubits/cubits.dart';
 import 'firebase_options.dart';
 import 'root_page.dart';
 
-Future main() async {
+Future<void> main() async {
   await dotenv.load();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
