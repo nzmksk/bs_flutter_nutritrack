@@ -48,91 +48,87 @@ class _NutritionPageState extends State<NutritionPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Search The Food'),
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Column(
-            children: [
-              TextField(
-                onSubmitted: nutriSearch,
-                decoration: const InputDecoration(
-                  hintText: 'Search the food here',
-                  contentPadding: EdgeInsets.all(16),
-                  border: OutlineInputBorder(
-                      borderSide: BorderSide(width: 5, color: Colors.black)),
-                ),
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          children: [
+            TextField(
+              onSubmitted: nutriSearch,
+              decoration: const InputDecoration(
+                hintText: 'Search the food here',
+                contentPadding: EdgeInsets.all(16),
+                border: OutlineInputBorder(
+                    borderSide: BorderSide(width: 5, color: Colors.black)),
               ),
-              Container(
-                decoration: _nutriSearchList.isNotEmpty
-                    ? BoxDecoration(
-                        border: Border.all(color: Colors.grey),
-                        //borderRadius: BorderRadius.circular(8),
-                      )
-                    : null,
-                child: _isLoading
-                    ? const CircularProgressIndicator()
-                    : SizedBox(
-                        height: 300,
-                        child: ListView.separated(
-                          itemCount: _nutriSearchList.length,
-                          separatorBuilder: (context, index) => const Divider(),
-                          itemBuilder: (context, index) {
-                            final foodItem = _nutriSearchList[index];
-                            return GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          NutritionInfo(foodItem: foodItem)),
-                                );
-                              },
-                              child: Card(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Image(
-                                        image: NetworkImage(
-                                            foodItem['photo']['thumb']),
-                                        width: 50,
-                                        height: 50,
+            ),
+            Container(
+              decoration: _nutriSearchList.isNotEmpty
+                  ? BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      //borderRadius: BorderRadius.circular(8),
+                    )
+                  : null,
+              child: _isLoading
+                  ? const CircularProgressIndicator()
+                  : SizedBox(
+                      height: 300,
+                      child: ListView.separated(
+                        itemCount: _nutriSearchList.length,
+                        separatorBuilder: (context, index) => const Divider(),
+                        itemBuilder: (context, index) {
+                          final foodItem = _nutriSearchList[index];
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        NutritionInfo(foodItem: foodItem)),
+                              );
+                            },
+                            child: Card(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Image(
+                                      image: NetworkImage(
+                                          foodItem['photo']['thumb']),
+                                      width: 50,
+                                      height: 50,
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(foodItem['food_name'],
+                                              style: const TextStyle(
+                                                  fontSize: 16)),
+                                          if (foodItem['serving_unit'] != null)
+                                            Text(
+                                              foodItem['serving_unit'],
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                        ],
                                       ),
-                                      const SizedBox(width: 8),
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(foodItem['food_name'],
-                                                style: const TextStyle(
-                                                    fontSize: 16)),
-                                            if (foodItem['serving_unit'] !=
-                                                null)
-                                              Text(foodItem['serving_unit'],
-                                                  style: const TextStyle(
-                                                      fontSize: 14,
-                                                      color: Colors.grey)),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            );
-                          },
-                        ),
+                            ),
+                          );
+                        },
                       ),
-              ),
-            ],
-          ),
+                    ),
+            ),
+          ],
         ),
       ),
     );
