@@ -5,22 +5,15 @@ import 'cubits/cubits.dart';
 import 'custom_widgets/custom_widgets.dart';
 import 'pages/pages.dart';
 
-class RootPage extends StatefulWidget {
+class RootPage extends StatelessWidget {
   const RootPage({super.key});
 
-  @override
-  State<RootPage> createState() => _RootPageState();
-}
-
-class _RootPageState extends State<RootPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: BlocBuilder<AppBarTitleCubit, AppBarTitleState>(
-          builder: (context, state) {
-            return Text(state.appBarTitle);
-          },
+          builder: (context, state) => Text(state.appBarTitle),
         ),
       ),
       body: BlocBuilder<NavigationCubit, NavigationState>(
@@ -45,23 +38,23 @@ class _RootPageState extends State<RootPage> {
               ? NutriTrackExpandableFab(
                   distance: 112.0,
                   children: [
-                    ActionButton(
+                    NutriTrackActionButton(
                       icon: const Icon(Icons.dining_outlined),
                       tooltip: 'Add calorie intake',
                       onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const AddCalorieIntake(),
+                            builder: (context) => const AddFood(),
                           ),
                         );
                       },
                     ),
-                    const ActionButton(
+                    const NutriTrackActionButton(
                       icon: Icon(Icons.fitness_center_outlined),
                       tooltip: 'Add calorie burnt',
                     ),
-                    const ActionButton(
+                    const NutriTrackActionButton(
                       icon: Icon(Icons.monitor_weight_outlined),
                       tooltip: 'Update weight',
                     ),
