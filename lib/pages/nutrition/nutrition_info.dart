@@ -1,8 +1,5 @@
 //This widget is to display nutrition info of the food based on the index
 
-
-
-
 //with nutrients endpoint but its showing null
 
 import 'dart:convert';
@@ -258,38 +255,3 @@ class _NutritionInfoState extends State<NutritionInfo> {
 //     );
 //   }
 // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   

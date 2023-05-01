@@ -1,6 +1,3 @@
-
-
-
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -98,10 +95,12 @@ class _NutritionPageState extends State<NutritionPage> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
                                       Image(
-                                        image: NetworkImage(foodItem['photo']['thumb']),
+                                        image: NetworkImage(
+                                            foodItem['photo']['thumb']),
                                         width: 50,
                                         height: 50,
                                       ),
@@ -112,8 +111,10 @@ class _NutritionPageState extends State<NutritionPage> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(foodItem['food_name'],
-                                                style: const TextStyle(fontSize: 16)),
-                                            if (foodItem['serving_unit'] != null)
+                                                style: const TextStyle(
+                                                    fontSize: 16)),
+                                            if (foodItem['serving_unit'] !=
+                                                null)
                                               Text(foodItem['serving_unit'],
                                                   style: const TextStyle(
                                                       fontSize: 14,
