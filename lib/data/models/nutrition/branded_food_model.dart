@@ -4,8 +4,8 @@ class BrandedFoodModel {
   String? servingUnit;
   String? brandId;
   String? brandItemName;
-  int? servingQuantity;
-  double? totalCalories;
+  num? servingQuantity;
+  num? totalCalories;
   String? brandName;
   String? itemId;
 
