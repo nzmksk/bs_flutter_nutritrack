@@ -22,7 +22,7 @@ class AddFood extends StatelessWidget {
               onPressed: () {
                 showSearch(
                   context: context,
-                  delegate: SearchNutritionInfo(),
+                  delegate: FoodSearchDelegate(),
                 );
               },
               icon: const Icon(Icons.search_outlined),
@@ -51,7 +51,7 @@ class AddFood extends StatelessWidget {
                 onPressed: () {
                   showSearch(
                     context: context,
-                    delegate: SearchNutritionInfo(),
+                    delegate: FoodSearchDelegate(),
                   );
                 },
                 style: OutlinedButton.styleFrom(
