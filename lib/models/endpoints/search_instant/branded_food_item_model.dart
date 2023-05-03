@@ -1,4 +1,4 @@
-class BrandedFoodModel {
+class BrandedFoodItemModel {
   String? foodName;
   String? imageUrl;
   String? servingUnit;
@@ -9,7 +9,7 @@ class BrandedFoodModel {
   String? brandName;
   String? itemId;
 
-  BrandedFoodModel({
+  BrandedFoodItemModel({
     this.foodName,
     this.imageUrl,
     this.servingUnit,
@@ -21,7 +21,7 @@ class BrandedFoodModel {
     this.itemId,
   });
 
-  BrandedFoodModel.fromJson(Map<String, dynamic> json) {
+  BrandedFoodItemModel.fromJson(Map<String, dynamic> json) {
     foodName = json['food_name'];
     imageUrl = json['photo']['thumb'];
     servingUnit = json['serving_unit'];

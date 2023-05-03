@@ -1,14 +1,14 @@
-class CommonFoodModel {
+class CommonFoodItemModel {
   String? foodName;
   String? imageUrl;
   String? error;
 
-  CommonFoodModel({
+  CommonFoodItemModel({
     this.foodName,
     this.imageUrl,
   });
 
-  CommonFoodModel.fromJson(Map<String, dynamic> json) {
+  CommonFoodItemModel.fromJson(Map<String, dynamic> json) {
     foodName = json['food_name'];
     imageUrl = json['image'];
   }
@@ -22,7 +22,7 @@ class CommonFoodModel {
     return data;
   }
 
-  CommonFoodModel.withError(String errorMessage) {
+  CommonFoodItemModel.withError(String errorMessage) {
     error = errorMessage;
   }
 }

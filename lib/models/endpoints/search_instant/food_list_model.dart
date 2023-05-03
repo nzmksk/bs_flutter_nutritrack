@@ -1,18 +1,18 @@
-import '../models.dart';
+import '../../models.dart';
 
-class NutritionModel {
-  List<BrandedFoodModel>? brandedFood;
-  List<CommonFoodModel>? commonFood;
+class FoodListModel {
+  List<BrandedFoodItemModel>? brandedFood;
+  List<CommonFoodItemModel>? commonFood;
   String? error;
 
-  NutritionModel({this.brandedFood, this.commonFood});
+  FoodListModel({this.brandedFood, this.commonFood});
 
-  NutritionModel.fromJson(Map<String, dynamic> json) {
+  FoodListModel.fromJson(Map<String, dynamic> json) {
     if (json['branded'] != null) {
       brandedFood = [];
       json['branded'].forEach(
         (foodItem) {
-          brandedFood!.add(BrandedFoodModel.fromJson(foodItem));
+          brandedFood!.add(BrandedFoodItemModel.fromJson(foodItem));
         },
       );
     }
@@ -21,7 +21,7 @@ class NutritionModel {
       commonFood = [];
       json['common'].forEach(
         (foodItem) {
-          commonFood!.add(CommonFoodModel.fromJson(foodItem));
+          commonFood!.add(CommonFoodItemModel.fromJson(foodItem));
         },
       );
     }
@@ -42,7 +42,7 @@ class NutritionModel {
     return data;
   }
 
-  NutritionModel.withError(String errorMessage) {
+  FoodListModel.withError(String errorMessage) {
     error = errorMessage;
   }
 }

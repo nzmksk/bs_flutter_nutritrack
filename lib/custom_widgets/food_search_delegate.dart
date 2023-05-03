@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import '../data/models/models.dart';
+import '../models/models.dart';
 import '../pages/pages.dart';
 
 class FoodSearchDelegate extends SearchDelegate {
-  Future<NutritionModel> foodSearchDelegate() async {
+  Future<FoodListModel> foodSearchDelegate() async {
     String appId = '077d62c7';
     String apiKey = '18e18988cc13c99074f8a95565dbc3d4';
     String apiUrl =
@@ -22,7 +22,7 @@ class FoodSearchDelegate extends SearchDelegate {
     );
 
     final data = jsonDecode(response.body);
-    return NutritionModel.fromJson(data);
+    return FoodListModel.fromJson(data);
   }
 
   @override
@@ -66,7 +66,7 @@ class FoodSearchDelegate extends SearchDelegate {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            NutritionInfo(foodItem: brandedFoodItem),
+                            NutritionInfo(brandedFoodItem: brandedFoodItem),
                       ),
                     );
                   },
