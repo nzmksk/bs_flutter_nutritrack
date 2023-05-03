@@ -1,9 +1,13 @@
-//This widget is to display nutrition info of the food based on the index
+// //This widget is to display nutrition info of the food based on the index
 
-//with nutrients endpoint but its showing null
+// //with nutrients endpoint but its showing null
 
 import 'dart:convert';
+import 'package:bs_flutter_nutritrack/cubits/cubits.dart';
+import 'package:bs_flutter_nutritrack/custom_widgets/custom_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 class NutritionInfo extends StatefulWidget {
@@ -17,12 +21,19 @@ class NutritionInfo extends StatefulWidget {
 
 class _NutritionInfoState extends State<NutritionInfo> {
   late Map<String, dynamic> _nutriInfo = {};
+
+  //api loading process variable
   bool _isLoading = false;
+
+  //api details
+  // String appId = dotenv.env['NUTRITIONIX_APP_ID']!;
+  // String apiKey = dotenv.env['NUTRITIONIX_API_KEY']!;
 
   String appId = '077d62c7';
   String apiKey = '18e18988cc13c99074f8a95565dbc3d4';
 
   Future<void> getNutriInfo(String query) async {
+    //before fetch data from api set state to true(processing data)
     setState(() {
       _isLoading = true;
     });
@@ -39,6 +50,7 @@ class _NutritionInfoState extends State<NutritionInfo> {
       }),
     );
 
+    //after fetch data from api set state to false(process end)
     setState(() {
       _isLoading = false;
     });
@@ -59,199 +71,164 @@ class _NutritionInfoState extends State<NutritionInfo> {
     getNutriInfo(widget.foodItem['food_name']);
   }
 
+  //UI part
+  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.foodItem['food_name']),
+        title: Text('Nutrition Info of ${widget.foodItem['food_name']}'),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: _isLoading
-              ? const CircularProgressIndicator()
-              : Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Serving size: ${_nutriInfo['serving_weight_grams']} g',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16.0,
+      body: SingleChildScrollView(
+        child: Container(
+         child: Expanded(
+            
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    // border: Border.all(
+                    //   color: Colors.grey,
+                    //   width: 1.0,
+                    // ),
+                    borderRadius: BorderRadius.circular(10.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 3),
                       ),
+                    ],
+                  ),
+                  child: Container(
+                    child: Image.network(
+                      'https://i0.wp.com/images-prod.healthline.com/hlcmsresource/images/AN_images/healthy-eating-ingredients-1296x728-header.jpg?w=1155&h=1528g',
+                      fit: BoxFit.cover,
                     ),
-                    const SizedBox(height: 10),
-                    Text(
-                      'Calories: ${_nutriInfo['calories']} kcal',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16.0,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      'Total Fat: ${_nutriInfo['total_fat']} g',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16.0,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      'Total Carbohydrate: ${_nutriInfo['total_carbohydrate']} g',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16.0,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      'Protein: ${_nutriInfo['protein']} g',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    )
-                  ],
+                  ),
                 ),
+                SizedBox(height: 15.0),
+                
+                Container(
+                  
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10.0),
+                      topRight: Radius.circular(10.0),
+                    ),
+                    // border: Border.all(
+                    //   width: 2.0,
+                    //   color: Colors.black,
+                    // ),
+                  ),
+                  child: Column(
+                    children: [
+                      Text(
+                        'Nutrition Facts',
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Divider(
+                        thickness: 5,
+                        color: Colors.black,
+                      ),
+                      SizedBox(height: 16.0),
+                      Text(
+                        'Amount per serving: ${_nutriInfo['serving_weight_grams']} g',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      ListTile(
+                        dense: true,
+                        title: Text(
+                          'Calories',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22,
+                          ),
+                        ),
+                        trailing: Text(
+                          '${_nutriInfo['calories']} kcal',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22,
+                          ),
+                        ),
+                      ),
+                      Divider(
+                        thickness: 2,
+                        color: Colors.black,
+                      ),
+                      ListTile(
+                        dense: true,
+                        title: Text(
+                          'Total Fat',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        trailing: Text(
+                          '${_nutriInfo['total_fat']} g',
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      Divider(
+                        thickness: 1,
+                        color: Colors.black,
+                      ),
+                      ListTile(
+                        dense: true,
+                        title: Text(
+                          'Total Carbohydrate',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        trailing: Text(
+                          '${_nutriInfo['total_carbohydrate']} g',
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      Divider(
+                        thickness: 1,
+                        color: Colors.black,
+                      ),
+                      
+                      ListTile(
+                        dense: true,
+                        title: Text(
+                          'Protein',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        trailing: Text(
+                          '${_nutriInfo['protein']} g',
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
   }
 }
-
-// Template I create for nutrition facts
-
-// class NutritionInfo extends StatelessWidget {
-//   final dynamic foodItem;
-//   const NutritionInfo({Key? key, required this.foodItem}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Nutrition Info of ${foodItem['food_name']}'),
-//       ),
-//       body: SingleChildScrollView(
-//         child: Padding (
-//           padding: const EdgeInsets.all(25.0),
-//           child: Container(
-//              padding: EdgeInsets.fromLTRB(10, 10, 10,0),
-//              decoration: BoxDecoration (
-//               border: Border.all(
-//                  color: Colors.black,
-//                  width: 2,
-
-//               ),
-//                borderRadius: BorderRadius.circular(10),
-//             ),
-//             child: Column(
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               children: const [
-//                 Image(
-//                  image: NetworkImage('https://img.freepik.com/free-photo/top-view-table-full-delicious-food-composition_23-2149141352.jpg'),
-
-//                 ),
-//                  SizedBox(height: 15.0),
-//                 Text(
-//                   'Nutrition Facts',
-//                   style: TextStyle(
-//                     fontSize: 25,
-//                     fontWeight: FontWeight.bold,
-//                   ),
-//                 ),
-//                 Divider(thickness: 5,color: Colors.black,),
-
-//                // SizedBox(height: 16.0),
-//                Text(
-//                   'Amount Per Serving',
-//                   style: TextStyle(
-//                     fontSize: 15,
-//                     fontWeight: FontWeight.bold,
-//                   ),
-//                 ),
-//                 ListTile(
-//                   dense:true,
-//                   title: Text(
-
-//                     'Calories',
-//                     style: TextStyle(
-//                       fontWeight: FontWeight.bold,
-//                       fontSize: 22,
-//                     ),
-
-//                   ),
-//                   trailing: Text(
-//                     '120 cal',
-//                     style: TextStyle(
-//                       color: Colors.black,
-//                       fontWeight: FontWeight.bold,
-//                       fontSize: 22,
-//                     ),
-//                   ),
-//                 ),
-//                 Divider(thickness: 2,color: Colors.black,),
-//                 ListTile(
-//                   dense:true,
-//                   title: Text(
-//                     'Total Fat',
-//                     style: TextStyle(
-//                       fontWeight: FontWeight.bold,
-//                     ),
-//                   ),
-//                   trailing: Text(
-//                     '3g',
-//                     style: TextStyle(
-//                       color: Colors.black,
-//                     ),
-//                   ),
-//                 ),
-//                 Divider(thickness: 1,color: Colors.black,),
-//                 ListTile(
-//                   dense:true,
-//                   title: Text(
-//                     'Saturated Fat',
-//                     style: TextStyle(
-//                       fontWeight: FontWeight.bold,
-//                     ),
-//                   ),
-//                   trailing: Text(
-//                     '1g',
-//                     style: TextStyle(
-//                       color: Colors.black,
-//                     ),
-//                   ),
-//                 ),
-//                  Divider(thickness: 1,color: Colors.black,),
-//                  SizedBox(height: 0),
-//                 ListTile(
-//                   dense:true,
-//                   title: Text(
-//                     'Cholesterol',
-//                     style: TextStyle(
-//                       fontWeight: FontWeight.bold,
-//                     ),
-//                   ),
-
-//                   trailing: Text(
-//                     '15mg',
-//                     style: TextStyle(
-//                       color: Colors.black,
-//                     ),
-//                   ),
-//                 ),
-//                 Divider(thickness: 5,color: Colors.black,),
-//                 Text(
-//                   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-//                   'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris'),
-//               ],
-//             ),
-//           ),
-
-//         )
-
-//       ),
-//     );
-//   }
-// }
