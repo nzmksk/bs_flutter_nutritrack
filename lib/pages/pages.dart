@@ -6,3 +6,6 @@ export 'nutrition/nutrition_page.dart';
 export 'nutrition/nutrition_info.dart';
 export 'profile/profile_page.dart';
 export 'summary/summary_page.dart';
+export 'account/login_page.dart';
+export 'account/signup_page.dart';
+export 'account/profile.dart';
