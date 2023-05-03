@@ -1,8 +1,10 @@
 import 'dart:convert';
-import 'package:bs_flutter_nutritrack/data/models/nutrition/branded_food_model.dart';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'nutrition_info.dart';
+
+import '../pages.dart';
+import '../../models/models.dart';
 
 class NutritionPage extends StatefulWidget {
   const NutritionPage({Key? key}) : super(key: key);
@@ -12,7 +14,7 @@ class NutritionPage extends StatefulWidget {
 }
 
 class _NutritionPageState extends State<NutritionPage> {
-  late List<BrandedFoodModel> _nutriSearchList = [];
+  late List<BrandedFoodItemModel> _fetchFoodList = [];
   bool _isLoading = false;
 
   String appId = '077d62c7';
@@ -23,7 +25,7 @@ class _NutritionPageState extends State<NutritionPage> {
       _isLoading = true;
     });
 
-    final response = await http.get(
+    http.Response response = await http.get(
       Uri.parse(
           'https://trackapi.nutritionix.com/v2/search/instant?query=$query'),
       headers: {
@@ -39,8 +41,8 @@ class _NutritionPageState extends State<NutritionPage> {
     if (response.statusCode == 200) {
       final data = json.decode(response.body)['branded'];
       setState(() {
-        _nutriSearchList = (data as List)
-            .map((food) => BrandedFoodModel.fromJson(food))
+        _fetchFoodList = (data as List)
+            .map((food) => BrandedFoodItemModel.fromJson(food))
             .toList();
       });
     } else {
@@ -65,7 +67,7 @@ class _NutritionPageState extends State<NutritionPage> {
               ),
             ),
             Container(
-              decoration: _nutriSearchList.isNotEmpty
+              decoration: _fetchFoodList.isNotEmpty
                   ? BoxDecoration(
                       border: Border.all(color: Colors.grey),
                       //borderRadius: BorderRadius.circular(8),
@@ -76,17 +78,17 @@ class _NutritionPageState extends State<NutritionPage> {
                   : SizedBox(
                       height: 300,
                       child: ListView.separated(
-                        itemCount: _nutriSearchList.length,
+                        itemCount: _fetchFoodList.length,
                         separatorBuilder: (context, index) => const Divider(),
                         itemBuilder: (context, index) {
-                          final foodItem = _nutriSearchList[index];
+                          final foodItem = _fetchFoodList[index];
                           return GestureDetector(
                             onTap: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        NutritionInfo(foodItem: foodItem)),
+                                    builder: (context) => NutritionInfo(
+                                        brandedFoodItem: foodItem)),
                               );
                             },
                             child: Card(
