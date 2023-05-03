@@ -48,41 +48,6 @@ class AddFood extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(24.0),
               child: OutlinedButton(
-                onPressed: () {
-                  showSearch(
-                    context: context,
-                    delegate: FoodSearchDelegate(),
-                  );
-                },
-                style: OutlinedButton.styleFrom(
-                  minimumSize: const Size(200, 50),
-                ),
-                child: const Text(
-                  'Search Food',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: OutlinedButton(
-                onPressed: () {},
-                style: OutlinedButton.styleFrom(
-                  minimumSize: const Size(200, 50),
-                ),
-                child: const Text(
-                  'Scan Barcode',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: OutlinedButton(
                 onPressed: () {},
                 style: OutlinedButton.styleFrom(
                   minimumSize: const Size(200, 50),
