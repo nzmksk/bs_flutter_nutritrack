@@ -1,4 +1,4 @@
-import '../models.dart';
+import '../../models.dart';
 
 class NutritionModel {
   List<BrandedFoodModel>? brandedFood;
