@@ -39,7 +39,7 @@ class _NutritionPageState extends State<NutritionPage> {
     });
 
     if (response.statusCode == 200) {
-      final data = json.decode(response.body)['branded'];
+      final data = jsonDecode(response.body)['branded'];
       setState(() {
         _fetchFoodList = (data as List)
             .map((food) => BrandedFoodItemModel.fromJson(food))
@@ -50,87 +50,131 @@ class _NutritionPageState extends State<NutritionPage> {
     }
   }
 
+//UI part
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Material(
       child: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextField(
-              onSubmitted: nutriSearch,
-              decoration: const InputDecoration(
-                hintText: 'Search the food here',
-                contentPadding: EdgeInsets.all(16),
-                border: OutlineInputBorder(
-                    borderSide: BorderSide(width: 5, color: Colors.black)),
+            const Text(
+              'Search for food:',
+              style: TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
               ),
             ),
+            const SizedBox(height: 15.0),
             Container(
-              decoration: _fetchFoodList.isNotEmpty
-                  ? BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      //borderRadius: BorderRadius.circular(8),
-                    )
-                  : null,
-              child: _isLoading
-                  ? const CircularProgressIndicator()
-                  : SizedBox(
-                      height: 300,
-                      child: ListView.separated(
-                        itemCount: _fetchFoodList.length,
-                        separatorBuilder: (context, index) => const Divider(),
-                        itemBuilder: (context, index) {
-                          final foodItem = _fetchFoodList[index];
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => NutritionInfo(
-                                        brandedFoodItem: foodItem)),
-                              );
-                            },
-                            child: Card(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.grey[200],
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: TextField(
+                onSubmitted: nutriSearch,
+                decoration: const InputDecoration(
+                  hintText: 'Search',
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.all(16),
+                  prefixIcon: Icon(Icons.search),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            if (_isLoading)
+              const Center(
+                child: CircularProgressIndicator(),
+              )
+            else if (_fetchFoodList.isEmpty)
+              const Center(
+                child: Text('No results found.'),
+              )
+            else
+              Expanded(
+                child: ListView.builder(
+                  itemCount: _fetchFoodList.length,
+                  itemBuilder: (context, index) {
+                    final foodItem = _fetchFoodList[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                NutritionInfo(brandedFoodItem: foodItem),
+                          ),
+                        );
+                      },
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          side:
+                              const BorderSide(width: 3, color: Colors.indigo),
+                        ),
+                        color: Colors.grey[200],
+                        //add shadow effect
+                        elevation: 1.0,
+                        margin: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  side: const BorderSide(
+                                      width: 2, color: Colors.black),
+                                ),
+                                child: Image.network(
+                                  foodItem.imageUrl!,
+                                  width: 90.0,
+                                  height: 90.0,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              const SizedBox(width: 15.0),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Image(
-                                      image: NetworkImage(foodItem.imageUrl!),
-                                      width: 50,
-                                      height: 50,
+                                    Text(
+                                      foodItem.foodName!,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15,
+                                      ),
                                     ),
-                                    const SizedBox(width: 8),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(foodItem.foodName!,
-                                              style: const TextStyle(
-                                                  fontSize: 16)),
-                                          if (foodItem.servingUnit != null)
-                                            Text(
-                                              foodItem.servingUnit!,
-                                              style: const TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.grey,
-                                              ),
-                                            ),
-                                        ],
+                                    Text(
+                                      foodItem.servingUnit != null
+                                          ? '${foodItem.totalCalories} kcal / ${foodItem.servingUnit}'
+                                          : '${foodItem.totalCalories} kcal',
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.grey,
                                       ),
                                     ),
                                   ],
                                 ),
                               ),
-                            ),
-                          );
-                        },
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-            ),
+                    );
+                  },
+                ),
+              ),
           ],
         ),
       ),

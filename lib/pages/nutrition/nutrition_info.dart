@@ -86,7 +86,7 @@ class _NutritionInfoState extends State<NutritionInfo> {
                     //   color: Colors.grey,
                     //   width: 1.0,
                     // ),
-                    borderRadius: BorderRadius.circular(10.0),
+                    borderRadius: BorderRadius.circular(10.0),                   
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.5),
@@ -113,6 +113,9 @@ class _NutritionInfoState extends State<NutritionInfo> {
                       topLeft: Radius.circular(10.0),
                       topRight: Radius.circular(10.0),
                     ),
+                    
+                     
+                    
                     // border: Border.all(
                     //   width: 2.0,
                     //   color: Colors.black,
