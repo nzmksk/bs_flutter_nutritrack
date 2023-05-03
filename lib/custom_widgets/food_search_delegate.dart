@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/models.dart';
@@ -8,8 +9,8 @@ import '../pages/pages.dart';
 
 class FoodSearchDelegate extends SearchDelegate {
   Future<FoodListModel> foodSearchDelegate() async {
-    String appId = '077d62c7';
-    String apiKey = '18e18988cc13c99074f8a95565dbc3d4';
+    String appId = dotenv.env['NUTRITIONIX_APP_ID']!;
+    String apiKey = dotenv.env['NUTRITIONIX_API_KEY']!;
     String apiUrl =
         'https://trackapi.nutritionix.com/v2/search/instant?query=$query';
 

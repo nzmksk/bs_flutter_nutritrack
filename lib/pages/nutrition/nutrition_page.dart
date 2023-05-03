@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 import '../pages.dart';
@@ -17,8 +18,8 @@ class _NutritionPageState extends State<NutritionPage> {
   late List<BrandedFoodItemModel> _fetchFoodList = [];
   bool _isLoading = false;
 
-  String appId = '077d62c7';
-  String apiKey = '18e18988cc13c99074f8a95565dbc3d4';
+  String appId = dotenv.env['NUTRITIONIX_APP_ID']!;
+  String apiKey = dotenv.env['NUTRITIONIX_API_KEY']!;
 
   Future<void> nutriSearch(String query) async {
     setState(() {
@@ -156,9 +157,9 @@ class _NutritionPageState extends State<NutritionPage> {
                                       ),
                                     ),
                                     Text(
-                                      foodItem.servingUnit != null
-                                          ? '${foodItem.totalCalories} kcal / ${foodItem.servingUnit}'
-                                          : '${foodItem.totalCalories} kcal',
+                                      foodItem.servingUnit == null
+                                          ? '${foodItem.totalCalories} kcal (${foodItem.servingQuantity})'
+                                          : '${foodItem.totalCalories} kcal (${foodItem.servingQuantity} ${foodItem.servingUnit})',
                                       style: const TextStyle(
                                         fontSize: 14,
                                         color: Colors.grey,
