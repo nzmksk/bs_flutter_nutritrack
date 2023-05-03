@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 import '../../models/models.dart';
@@ -20,8 +22,8 @@ class _NutritionInfoState extends State<NutritionInfo> {
 
   bool _isLoading = false;
 
-  String appId = '077d62c7';
-  String apiKey = '18e18988cc13c99074f8a95565dbc3d4';
+  String appId = dotenv.env['NUTRITIONIX_APP_ID']!;
+  String apiKey = dotenv.env['NUTRITIONIX_API_KEY']!;
 
   Future<void> getNutritionInfo(String itemId) async {
     setState(() {
@@ -139,217 +141,245 @@ class _NutritionInfoState extends State<NutritionInfo> {
                             ),
                             const SizedBox(height: 16.0),
                             Text(
-                              foodItem.servingUnit != 'g'
-                                  ? 'Serving size: ${foodItem.servingQuantity} g'
-                                  : 'Serving size: ${foodItem.servingQuantity} / ${foodItem.servingUnit}',
+                              foodItem.servingUnit == 'g'
+                                  ? 'Serving size: ${foodItem.servingWeight} g'
+                                  : 'Serving size: ${foodItem.servingQuantity} ${foodItem.servingUnit}',
                               style: const TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            ListTile(
-                              dense: true,
-                              title: const Text(
-                                'Total Calories',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 22,
-                                ),
-                              ),
-                              trailing: Text(
-                                '${foodItem.totalCalories} kcal',
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 22,
-                                ),
-                              ),
-                            ),
-                            const Divider(
-                              thickness: 2,
-                              color: Colors.black,
-                            ),
-                            ListTile(
-                              dense: true,
-                              title: const Text(
-                                'Total Fat',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              trailing: Text(
-                                '${foodItem.totalFat} g',
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                            const Divider(
-                              thickness: 1,
-                              color: Colors.black,
-                            ),
-                            ListTile(
-                              dense: true,
-                              title: const Text(
-                                'Saturated fat',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              trailing: Text(
-                                '${foodItem.saturatedFat} g',
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                            const Divider(
-                              thickness: 1,
-                              color: Colors.black,
-                            ),
-                            ListTile(
-                              dense: true,
-                              title: const Text(
-                                'Cholesterol',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              trailing: Text(
-                                '${foodItem.cholesterol} mg',
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                            const Divider(
-                              thickness: 1,
-                              color: Colors.black,
-                            ),
-                            ListTile(
-                              dense: true,
-                              title: const Text(
-                                'Sodium',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              trailing: Text(
-                                '${foodItem.sodium} mg',
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                            const Divider(
-                              thickness: 1,
-                              color: Colors.black,
-                            ),
-                            ListTile(
-                              dense: true,
-                              title: const Text(
-                                'Total Carbohydrates',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              trailing: Text(
-                                '${foodItem.totalCarbohydrates} g',
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                            const Divider(
-                              thickness: 1,
-                              color: Colors.black,
-                            ),
-                            ListTile(
-                              dense: true,
-                              title: const Text(
-                                'Dietary fiber',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              trailing: Text(
-                                '${foodItem.dietaryFiber} g',
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                            const Divider(
-                              thickness: 1,
-                              color: Colors.black,
-                            ),
-                            ListTile(
-                              dense: true,
-                              title: const Text(
-                                'Sugars',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              trailing: Text(
-                                '${foodItem.sugars} g',
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                            const Divider(
-                              thickness: 1,
-                              color: Colors.black,
-                            ),
-                            ListTile(
-                              dense: true,
-                              title: const Text(
-                                'Protein',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              trailing: Text(
-                                '${foodItem.protein} g',
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                            const Divider(
-                              thickness: 1,
-                              color: Colors.black,
-                            ),
-                            ListTile(
-                              dense: true,
-                              title: const Text(
-                                'Potassium',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              trailing: Text(
-                                '${foodItem.potassium} mg',
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                            const Divider(
-                              thickness: 1,
-                              color: Colors.black,
-                            ),
                           ],
                         ),
                       ),
-                      ElevatedButton(
-                        onPressed: () {},
-                        child: const Text('Add Food'),
+                      ListTile(
+                        dense: true,
+                        title: const Text(
+                          'Total Calories',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22,
+                          ),
+                        ),
+                        trailing: Text(
+                          '${foodItem.totalCalories} kcal',
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22,
+                          ),
+                        ),
+                      ),
+                      const Divider(
+                        indent: 16,
+                        endIndent: 16,
+                        thickness: 2,
+                        color: Colors.black,
+                      ),
+                      ListTile(
+                        dense: true,
+                        title: const Text(
+                          'Total Fat',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        trailing: Text(
+                          '${foodItem.totalFat} g',
+                          style: const TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      const Divider(
+                        indent: 16,
+                        endIndent: 16,
+                        thickness: 1,
+                        color: Colors.black,
+                      ),
+                      ListTile(
+                        dense: true,
+                        title: const Text(
+                          'Saturated fat',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        trailing: Text(
+                          '${foodItem.saturatedFat} g',
+                          style: const TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      const Divider(
+                        indent: 16,
+                        endIndent: 16,
+                        thickness: 1,
+                        color: Colors.black,
+                      ),
+                      ListTile(
+                        dense: true,
+                        title: const Text(
+                          'Cholesterol',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        trailing: Text(
+                          '${foodItem.cholesterol} mg',
+                          style: const TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      const Divider(
+                        indent: 16,
+                        endIndent: 16,
+                        thickness: 1,
+                        color: Colors.black,
+                      ),
+                      ListTile(
+                        dense: true,
+                        title: const Text(
+                          'Sodium',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        trailing: Text(
+                          '${foodItem.sodium} mg',
+                          style: const TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      const Divider(
+                        indent: 16,
+                        endIndent: 16,
+                        thickness: 1,
+                        color: Colors.black,
+                      ),
+                      ListTile(
+                        dense: true,
+                        title: const Text(
+                          'Total Carbohydrates',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        trailing: Text(
+                          '${foodItem.totalCarbohydrates} g',
+                          style: const TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      const Divider(
+                        indent: 16,
+                        endIndent: 16,
+                        thickness: 1,
+                        color: Colors.black,
+                      ),
+                      ListTile(
+                        dense: true,
+                        title: const Text(
+                          'Dietary fiber',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        trailing: Text(
+                          '${foodItem.dietaryFiber} g',
+                          style: const TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      const Divider(
+                        indent: 16,
+                        endIndent: 16,
+                        thickness: 1,
+                        color: Colors.black,
+                      ),
+                      ListTile(
+                        dense: true,
+                        title: const Text(
+                          'Sugars',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        trailing: Text(
+                          '${foodItem.sugars} g',
+                          style: const TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      const Divider(
+                        indent: 16,
+                        endIndent: 16,
+                        thickness: 1,
+                        color: Colors.black,
+                      ),
+                      ListTile(
+                        dense: true,
+                        title: const Text(
+                          'Protein',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        trailing: Text(
+                          '${foodItem.protein} g',
+                          style: const TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      const Divider(
+                        indent: 16,
+                        endIndent: 16,
+                        thickness: 1,
+                        color: Colors.black,
+                      ),
+                      ListTile(
+                        dense: true,
+                        title: const Text(
+                          'Potassium',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        trailing: Text(
+                          '${foodItem.potassium} mg',
+                          style: const TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      const Divider(
+                        indent: 16,
+                        endIndent: 16,
+                        thickness: 1,
+                        color: Colors.black,
                       ),
                     ],
                   ),
                 ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  addCalorie(foodItem);
+                  const snackBar = SnackBar(
+                    content: Text('Added to calorie intake!'),
+                  );
+
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  Navigator.of(context).popUntil((route) => route.isFirst);
+                },
+                child: const Text('Add Food'),
               ),
             ],
           ),
@@ -357,4 +387,13 @@ class _NutritionInfoState extends State<NutritionInfo> {
       );
     }
   }
+}
+
+Future addCalorie(BrandedFoodNutritionModel foodItem) async {
+  // Reference to document
+  final docAddCalorie =
+      FirebaseFirestore.instance.collection('calorie-intake').doc();
+
+  // Create document and write data to Firebase
+  await docAddCalorie.set(foodItem.toJson());
 }

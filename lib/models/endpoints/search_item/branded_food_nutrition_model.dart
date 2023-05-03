@@ -64,27 +64,29 @@ class BrandedFoodNutritionModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['food_name'] = foodName;
-    data['serving_qty'] = servingQuantity;
-    data['serving_unit'] = servingUnit;
-    data['serving_weight_grams'] = servingWeight;
-    data['nf_calories'] = totalCalories;
-    data['nf_total_fat'] = totalFat;
-    data['nf_saturated_fat'] = saturatedFat;
-    data['nf_cholesterol'] = cholesterol;
-    data['nf_sodium'] = sodium;
-    data['nf_total_carbohydrate'] = totalCarbohydrates;
-    data['nf_dietary_fiber'] = dietaryFiber;
-    data['nf_sugars'] = sugars;
-    data['nf_protein'] = protein;
-    data['nf_potassium'] = potassium;
-    data['nix_brand_name'] = brandName;
-    data['nix_brand_id'] = brandId;
-    data['nix_item_name'] = brandItemName;
-    data['nix_item_id'] = itemId;
-    data['photo']['thumb'] = imageUrl;
-
+    final Map<String, dynamic> data = <String, dynamic>{
+      'food_name': foodName,
+      'serving_qty': servingQuantity,
+      'serving_unit': servingUnit,
+      'serving_weight_grams': servingWeight,
+      'nf_calories': totalCalories,
+      'nf_total_fat': totalFat,
+      'nf_saturated_fat': saturatedFat,
+      'nf_cholesterol': cholesterol,
+      'nf_sodium': sodium,
+      'nf_total_carbohydrate': totalCarbohydrates,
+      'nf_dietary_fiber': dietaryFiber,
+      'nf_sugars': sugars,
+      'nf_protein': protein,
+      'nf_potassium': potassium,
+      'nix_brand_name': brandName,
+      'nix_brand_id': brandId,
+      'nix_item_name': brandItemName,
+      'nix_item_id': itemId,
+      'photo': {
+        'thumb': imageUrl,
+      },
+    };
     return data;
   }
 }
