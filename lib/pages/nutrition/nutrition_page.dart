@@ -1,9 +1,10 @@
-
-
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'nutrition_info.dart';
+
+import '../pages.dart';
+import '../../models/models.dart';
 
 class NutritionPage extends StatefulWidget {
   const NutritionPage({Key? key}) : super(key: key);
@@ -13,9 +14,9 @@ class NutritionPage extends StatefulWidget {
 }
 
 class _NutritionPageState extends State<NutritionPage> {
-  late List<dynamic> _nutriSearchList = [];
+  late List<BrandedFoodItemModel> _fetchFoodList = [];
   bool _isLoading = false;
-  //api part
+
   String appId = '077d62c7';
   String apiKey = '18e18988cc13c99074f8a95565dbc3d4';
 
@@ -24,7 +25,7 @@ class _NutritionPageState extends State<NutritionPage> {
       _isLoading = true;
     });
 
-    final response = await http.get(
+    http.Response response = await http.get(
       Uri.parse(
           'https://trackapi.nutritionix.com/v2/search/instant?query=$query'),
       headers: {
@@ -38,9 +39,11 @@ class _NutritionPageState extends State<NutritionPage> {
     });
 
     if (response.statusCode == 200) {
-      final data = json.decode(response.body)['common'];
+      final data = jsonDecode(response.body)['branded'];
       setState(() {
-        _nutriSearchList = data;
+        _fetchFoodList = (data as List)
+            .map((food) => BrandedFoodItemModel.fromJson(food))
+            .toList();
       });
     } else {
       throw Exception('No data found');
@@ -73,13 +76,13 @@ class _NutritionPageState extends State<NutritionPage> {
                     color: Colors.grey.withOpacity(0.5),
                     spreadRadius: 2,
                     blurRadius: 5,
-                    offset: Offset(0, 3),
+                    offset: const Offset(0, 3),
                   ),
                 ],
               ),
               child: TextField(
                 onSubmitted: nutriSearch,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Search',
                   border: InputBorder.none,
                   contentPadding: EdgeInsets.all(16),
@@ -87,37 +90,36 @@ class _NutritionPageState extends State<NutritionPage> {
                 ),
               ),
             ),
-
-           
             const SizedBox(height: 20),
             if (_isLoading)
               const Center(
                 child: CircularProgressIndicator(),
               )
-            else if (_nutriSearchList.isEmpty)
+            else if (_fetchFoodList.isEmpty)
               const Center(
                 child: Text('No results found.'),
               )
             else
               Expanded(
                 child: ListView.builder(
-                  itemCount: _nutriSearchList.length,
+                  itemCount: _fetchFoodList.length,
                   itemBuilder: (context, index) {
-                    final foodItem = _nutriSearchList[index];
+                    final foodItem = _fetchFoodList[index];
                     return GestureDetector(
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
-                                NutritionInfo(foodItem: foodItem),
+                                NutritionInfo(brandedFoodItem: foodItem),
                           ),
                         );
                       },
                       child: Card(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
-                          side: BorderSide(width: 3,color: Colors.indigo),
+                          side:
+                              const BorderSide(width: 3, color: Colors.indigo),
                         ),
                         color: Colors.grey[200],
                         //add shadow effect
@@ -131,10 +133,11 @@ class _NutritionPageState extends State<NutritionPage> {
                               Card(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10.0),
-                                  side: BorderSide(width: 2,color: Colors.black),
+                                  side: const BorderSide(
+                                      width: 2, color: Colors.black),
                                 ),
                                 child: Image.network(
-                                  foodItem['photo']['thumb'],
+                                  foodItem.imageUrl!,
                                   width: 90.0,
                                   height: 90.0,
                                   fit: BoxFit.cover,
@@ -146,23 +149,21 @@ class _NutritionPageState extends State<NutritionPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      foodItem['food_name'],
+                                      foodItem.foodName!,
                                       style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15,
                                       ),
                                     ),
-                                   const SizedBox(height:5.0),
-                                    if (foodItem.containsKey('serving_unit'))
-                                      Text(
-                                        'Serving Size: ${foodItem['serving_unit']}',
-                                        style: const TextStyle(
-                                          color: Colors.grey,
-                                          
-                                        ),
-                                      
+                                    Text(
+                                      foodItem.servingUnit != null
+                                          ? '${foodItem.totalCalories} kcal / ${foodItem.servingUnit}'
+                                          : '${foodItem.totalCalories} kcal',
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.grey,
                                       ),
-                                   
+                                    ),
                                   ],
                                 ),
                               ),
