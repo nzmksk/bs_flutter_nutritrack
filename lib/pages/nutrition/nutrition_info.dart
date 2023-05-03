@@ -1,6 +1,4 @@
-// //This widget is to display nutrition info of the food based on the index
 
-// //with nutrients endpoint but its showing null
 
 import 'dart:convert';
 import 'package:bs_flutter_nutritrack/cubits/cubits.dart';
@@ -82,8 +80,7 @@ class _NutritionInfoState extends State<NutritionInfo> {
       body: SingleChildScrollView(
         child: Container(
          child: Expanded(
-            
-            child: Column(
+           child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
@@ -92,7 +89,7 @@ class _NutritionInfoState extends State<NutritionInfo> {
                     //   color: Colors.grey,
                     //   width: 1.0,
                     // ),
-                    borderRadius: BorderRadius.circular(10.0),
+                    borderRadius: BorderRadius.circular(10.0),                   
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.5),
@@ -112,13 +109,15 @@ class _NutritionInfoState extends State<NutritionInfo> {
                 SizedBox(height: 15.0),
                 
                 Container(
-                  
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
+                   padding: EdgeInsets.all(10),
+                   decoration: BoxDecoration(
+                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(10.0),
                       topRight: Radius.circular(10.0),
                     ),
+                    
+                     
+                    
                     // border: Border.all(
                     //   width: 2.0,
                     //   color: Colors.black,
