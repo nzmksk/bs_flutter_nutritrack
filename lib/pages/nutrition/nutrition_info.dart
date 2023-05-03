@@ -3,15 +3,13 @@
 // //with nutrients endpoint but its showing null
 
 import 'dart:convert';
-import 'package:bs_flutter_nutritrack/cubits/cubits.dart';
-import 'package:bs_flutter_nutritrack/custom_widgets/custom_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
+import '../../data/models/models.dart';
+
 class NutritionInfo extends StatefulWidget {
-  final dynamic foodItem;
+  final BrandedFoodModel foodItem;
 
   const NutritionInfo({required this.foodItem, Key? key}) : super(key: key);
 
@@ -68,7 +66,7 @@ class _NutritionInfoState extends State<NutritionInfo> {
   @override
   void initState() {
     super.initState();
-    getNutriInfo(widget.foodItem['food_name']);
+    getNutriInfo(widget.foodItem.foodName!);
   }
 
   //UI part
@@ -77,155 +75,147 @@ class _NutritionInfoState extends State<NutritionInfo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Nutrition Info of ${widget.foodItem['food_name']}'),
+        title: Text('${widget.foodItem.foodName}'),
       ),
       body: SingleChildScrollView(
-        child: Container(
-         child: Expanded(
-            
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    // border: Border.all(
-                    //   color: Colors.grey,
-                    //   width: 1.0,
-                    // ),
-                    borderRadius: BorderRadius.circular(10.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  child: Container(
-                    child: Image.network(
-                      'https://i0.wp.com/images-prod.healthline.com/hlcmsresource/images/AN_images/healthy-eating-ingredients-1296x728-header.jpg?w=1155&h=1528g',
-                      fit: BoxFit.cover,
+        child: Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  // border: Border.all(
+                  //   color: Colors.grey,
+                  //   width: 1.0,
+                  // ),
+                  borderRadius: BorderRadius.circular(10.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: const Offset(0, 3),
                     ),
-                  ),
+                  ],
                 ),
-                SizedBox(height: 15.0),
-                
-                Container(
-                  
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10.0),
-                      topRight: Radius.circular(10.0),
-                    ),
-                    // border: Border.all(
-                    //   width: 2.0,
-                    //   color: Colors.black,
-                    // ),
+                child: Image.network(
+                  'https://i0.wp.com/images-prod.healthline.com/hlcmsresource/images/AN_images/healthy-eating-ingredients-1296x728-header.jpg?w=1155&h=1528g',
+                  fit: BoxFit.cover,
+                ),
+              ),
+              const SizedBox(height: 15.0),
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10.0),
+                    topRight: Radius.circular(10.0),
                   ),
-                  child: Column(
-                    children: [
-                      Text(
-                        'Nutrition Facts',
+                  // border: Border.all(
+                  //   width: 2.0,
+                  //   color: Colors.black,
+                  // ),
+                ),
+                child: Column(
+                  children: [
+                    const Text(
+                      'Nutrition Facts',
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const Divider(
+                      thickness: 5,
+                      color: Colors.black,
+                    ),
+                    const SizedBox(height: 16.0),
+                    Text(
+                      'Amount per serving: ${_nutriInfo['serving_weight_grams']} g',
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    ListTile(
+                      dense: true,
+                      title: const Text(
+                        'Calories',
                         style: TextStyle(
-                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 22,
+                        ),
+                      ),
+                      trailing: Text(
+                        '${_nutriInfo['calories']} kcal',
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 22,
+                        ),
+                      ),
+                    ),
+                    const Divider(
+                      thickness: 2,
+                      color: Colors.black,
+                    ),
+                    ListTile(
+                      dense: true,
+                      title: const Text(
+                        'Total Fat',
+                        style: TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Divider(
-                        thickness: 5,
-                        color: Colors.black,
+                      trailing: Text(
+                        '${_nutriInfo['total_fat']} g',
+                        style: const TextStyle(
+                          color: Colors.black,
+                        ),
                       ),
-                      SizedBox(height: 16.0),
-                      Text(
-                        'Amount per serving: ${_nutriInfo['serving_weight_grams']} g',
+                    ),
+                    const Divider(
+                      thickness: 1,
+                      color: Colors.black,
+                    ),
+                    ListTile(
+                      dense: true,
+                      title: const Text(
+                        'Total Carbohydrate',
                         style: TextStyle(
-                          fontSize: 15,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      ListTile(
-                        dense: true,
-                        title: Text(
-                          'Calories',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 22,
-                          ),
-                        ),
-                        trailing: Text(
-                          '${_nutriInfo['calories']} kcal',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 22,
-                          ),
+                      trailing: Text(
+                        '${_nutriInfo['total_carbohydrate']} g',
+                        style: const TextStyle(
+                          color: Colors.black,
                         ),
                       ),
-                      Divider(
-                        thickness: 2,
-                        color: Colors.black,
-                      ),
-                      ListTile(
-                        dense: true,
-                        title: Text(
-                          'Total Fat',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        trailing: Text(
-                          '${_nutriInfo['total_fat']} g',
-                          style: TextStyle(
-                            color: Colors.black,
-                          ),
+                    ),
+                    const Divider(
+                      thickness: 1,
+                      color: Colors.black,
+                    ),
+                    ListTile(
+                      dense: true,
+                      title: const Text(
+                        'Protein',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Divider(
-                        thickness: 1,
-                        color: Colors.black,
-                      ),
-                      ListTile(
-                        dense: true,
-                        title: Text(
-                          'Total Carbohydrate',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        trailing: Text(
-                          '${_nutriInfo['total_carbohydrate']} g',
-                          style: TextStyle(
-                            color: Colors.black,
-                          ),
+                      trailing: Text(
+                        '${_nutriInfo['protein']} g',
+                        style: const TextStyle(
+                          color: Colors.black,
                         ),
                       ),
-                      Divider(
-                        thickness: 1,
-                        color: Colors.black,
-                      ),
-                      
-                      ListTile(
-                        dense: true,
-                        title: Text(
-                          'Protein',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        trailing: Text(
-                          '${_nutriInfo['protein']} g',
-                          style: TextStyle(
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
