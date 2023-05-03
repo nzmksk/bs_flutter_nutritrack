@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../data/models/models.dart';
+import '../pages/pages.dart';
 
 class FoodSearchDelegate extends SearchDelegate {
   Future<NutritionModel> foodSearchDelegate() async {
@@ -55,11 +56,20 @@ class FoodSearchDelegate extends SearchDelegate {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
-              itemCount: snapshot.data!.commonFood?.length,
+              itemCount: snapshot.data!.brandedFood?.length,
               itemBuilder: (context, index) {
-                final commonFoodItem = snapshot.data!.commonFood![index];
+                final brandedFoodItem = snapshot.data!.brandedFood![index];
                 return ListTile(
-                  title: Text(commonFoodItem.foodName!),
+                  title: Text(brandedFoodItem.foodName!),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            NutritionInfo(foodItem: brandedFoodItem),
+                      ),
+                    );
+                  },
                 );
               },
             );

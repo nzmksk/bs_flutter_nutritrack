@@ -23,7 +23,7 @@ class BrandedFoodModel {
 
   BrandedFoodModel.fromJson(Map<String, dynamic> json) {
     foodName = json['food_name'];
-    imageUrl = json['image'];
+    imageUrl = json['photo']['thumb'];
     servingUnit = json['serving_unit'];
     brandId = json['nix_brand_id'];
     brandItemName = json['brand_name_item_name'];
