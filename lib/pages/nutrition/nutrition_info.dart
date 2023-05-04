@@ -76,7 +76,7 @@ class _NutritionInfoState extends State<NutritionInfo> {
   Stream<num> amountListener(TextEditingController controller) async* {
     while (true) {
       await Future.delayed(const Duration(milliseconds: 100));
-      if (controller.value.text != null || controller.value.text != '') {
+      if (controller.value.text != null && controller.value.text != '') {
         yield num.parse(controller.value.text);
       }
     }
@@ -86,9 +86,12 @@ class _NutritionInfoState extends State<NutritionInfo> {
   void initState() {
     getNutritionInfo(widget.brandedFoodItem.itemId!);
     _amountController.addListener(() {
-      setState(() {
-        amountToDisplay = num.parse(_amountController.value.text);
-      });
+      if (_amountController.value.text != null &&
+          _amountController.value.text != '') {
+        setState(() {
+          amountToDisplay = num.parse(_amountController.value.text);
+        });
+      }
     });
     super.initState();
   }
@@ -678,23 +681,43 @@ class _NutritionInfoState extends State<NutritionInfo> {
                                 DecimalTextInputFormatter(decimalRange: 2),
                               ],
                               controller: _amountController,
+                              validator: (value) {
+                                if (value == '' ||
+                                    (num.tryParse(value!) ?? 0) < 0.01) {
+                                  return 'Amount cannot be 0 or empty.';
+                                }
+
+                                return null;
+                              },
                             ),
                           ),
                         ],
                       ),
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        addCalorie(foodItem);
-                        const snackBar = SnackBar(
-                          content: Text('Added to calorie intake!'),
-                        );
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              addCalorie(foodItem);
+                              const snackBar = SnackBar(
+                                content: Text('Added to calorie intake!'),
+                              );
 
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        Navigator.of(context)
-                            .popUntil((route) => route.isFirst);
-                      },
-                      child: const Text('Add Food'),
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                              Navigator.of(context)
+                                  .popUntil((route) => route.isFirst);
+                            }
+                          },
+                          child: const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text('Add to Calorie Intake'),
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
