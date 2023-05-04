@@ -11,7 +11,7 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   // bool _passwordVisible = false;
-  // bool _obscureText = true;
+  bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +81,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       SizedBox(height: 30),
                       TextFormField(
                         // validator: (input) {},
-                        // obscureText: !_passwordVisible,
+                        obscureText: !_obscureText,
                         decoration: InputDecoration(
                           labelText: 'Password',
                           prefixIcon: Icon(Icons.lock),
@@ -97,8 +97,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         child: ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
-                            foregroundColor: Colors.white,
+                            backgroundColor: Colors.lightGreen,
+                            foregroundColor: Colors.black,
                           ),
                           child: Text(
                             'Sign Up',
