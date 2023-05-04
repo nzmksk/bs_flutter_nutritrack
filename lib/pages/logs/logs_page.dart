@@ -14,11 +14,15 @@ class LogsPage extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           final foodItemList = snapshot.data;
-
-          return ListView(
-            children: foodItemList!
-                .map((foodItem) => buildFoodItem(context, foodItem))
-                .toList(),
+          if (foodItemList!.isNotEmpty) {
+            return ListView(
+              children: foodItemList
+                  .map((foodItem) => buildFoodItem(context, foodItem))
+                  .toList(),
+            );
+          }
+          return const Center(
+            child: Text('No record available.'),
           );
         } else if (snapshot.hasError) {
           return Center(
@@ -49,7 +53,18 @@ class LogsPage extends StatelessWidget {
         trailing: IconButton(
           icon: const Icon(Icons.delete_outline),
           color: Colors.red,
-          onPressed: () {},
+          onPressed: () {
+            final docFoodLog = FirebaseFirestore.instance
+                .collection('calorie-intake')
+                .doc('${foodItem.itemId}');
+
+            docFoodLog.delete();
+
+            const snackBar = SnackBar(
+              content: Text('Calorie log deleted!'),
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          },
         ),
       ),
     );

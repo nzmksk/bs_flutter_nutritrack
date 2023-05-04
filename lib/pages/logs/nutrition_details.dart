@@ -476,7 +476,17 @@ class _NutritionDetailsPageState extends State<NutritionDetailsPage> {
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.3,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              deleteFoodLog(widget.foodItem);
+                              const snackBar = SnackBar(
+                                content: Text('Calorie log deleted!'),
+                              );
+
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                              Navigator.of(context)
+                                  .popUntil((route) => route.isFirst);
+                            },
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.red),
                             child: const Text('Delete'),
@@ -535,4 +545,12 @@ Future updateCalorie(BrandedFoodNutritionModel foodItem, String selectedMeal,
 
   // Create document and write data to Firebase
   await docFoodLog.set(json);
+}
+
+Future deleteFoodLog(BrandedFoodNutritionModel foodItem) async {
+  final docFoodLog = FirebaseFirestore.instance
+      .collection('calorie-intake')
+      .doc('${foodItem.itemId}');
+
+  docFoodLog.delete();
 }
