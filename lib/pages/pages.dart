@@ -8,4 +8,4 @@ export 'profile/profile_page.dart';
 export 'summary/summary_page.dart';
 export 'account/login_page.dart';
 export 'account/signup_page.dart';
-export 'account/profile.dart';
+export 'profile/profile.dart';
