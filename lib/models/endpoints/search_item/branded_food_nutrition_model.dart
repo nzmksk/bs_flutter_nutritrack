@@ -47,15 +47,15 @@ class BrandedFoodNutritionModel {
     servingUnit = json['serving_unit'];
     servingWeight = json['serving_weight_grams'];
     totalCalories = json['nf_calories'];
-    totalFat = json['nf_total_fat'];
-    saturatedFat = json['nf_saturated_fat'];
-    cholesterol = json['nf_cholesterol'];
-    sodium = json['nf_sodium'];
-    totalCarbohydrates = json['nf_total_carbohydrate'];
-    dietaryFiber = json['nf_dietary_fiber'];
-    sugars = json['nf_sugars'];
-    protein = json['nf_protein'];
-    potassium = json['nf_potassium'];
+    totalFat = json['nf_total_fat'] ?? 0;
+    saturatedFat = json['nf_saturated_fat'] ?? 0;
+    cholesterol = json['nf_cholesterol'] ?? 0;
+    sodium = json['nf_sodium'] ?? 0;
+    totalCarbohydrates = json['nf_total_carbohydrate'] ?? 0;
+    dietaryFiber = json['nf_dietary_fiber'] ?? 0;
+    sugars = json['nf_sugars'] ?? 0;
+    protein = json['nf_protein'] ?? 0;
+    potassium = json['nf_potassium'] ?? 0;
     brandName = json['nix_brand_name'];
     brandId = json['nix_brand_id'];
     brandItemName = json['nix_item_name'];
@@ -64,27 +64,29 @@ class BrandedFoodNutritionModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['food_name'] = foodName;
-    data['serving_qty'] = servingQuantity;
-    data['serving_unit'] = servingUnit;
-    data['serving_weight_grams'] = servingWeight;
-    data['nf_calories'] = totalCalories;
-    data['nf_total_fat'] = totalFat;
-    data['nf_saturated_fat'] = saturatedFat;
-    data['nf_cholesterol'] = cholesterol;
-    data['nf_sodium'] = sodium;
-    data['nf_total_carbohydrate'] = totalCarbohydrates;
-    data['nf_dietary_fiber'] = dietaryFiber;
-    data['nf_sugars'] = sugars;
-    data['nf_protein'] = protein;
-    data['nf_potassium'] = potassium;
-    data['nix_brand_name'] = brandName;
-    data['nix_brand_id'] = brandId;
-    data['nix_item_name'] = brandItemName;
-    data['nix_item_id'] = itemId;
-    data['photo']['thumb'] = imageUrl;
-
+    final Map<String, dynamic> data = <String, dynamic>{
+      'food_name': foodName,
+      'serving_qty': servingQuantity,
+      'serving_unit': servingUnit,
+      'serving_weight_grams': servingWeight,
+      'nf_calories': totalCalories,
+      'nf_total_fat': totalFat,
+      'nf_saturated_fat': saturatedFat,
+      'nf_cholesterol': cholesterol,
+      'nf_sodium': sodium,
+      'nf_total_carbohydrate': totalCarbohydrates,
+      'nf_dietary_fiber': dietaryFiber,
+      'nf_sugars': sugars,
+      'nf_protein': protein,
+      'nf_potassium': potassium,
+      'nix_brand_name': brandName,
+      'nix_brand_id': brandId,
+      'nix_item_name': brandItemName,
+      'nix_item_id': itemId,
+      'photo': {
+        'thumb': imageUrl,
+      },
+    };
     return data;
   }
 }

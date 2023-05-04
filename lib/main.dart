@@ -34,7 +34,9 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'NutriTrack',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          snackBarTheme:
+              const SnackBarThemeData(backgroundColor: Colors.indigo),
+          primarySwatch: Colors.indigo,
         ),
         home: const RootPage(),
         debugShowCheckedModeBanner: false,

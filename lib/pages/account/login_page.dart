@@ -83,8 +83,8 @@ class _LoginPageState extends State<LoginPage> {
                           child: ElevatedButton(
                             onPressed: () {},
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blue,
-                              foregroundColor: Colors.white,
+                              backgroundColor: Colors.lightGreen,
+                              foregroundColor: Colors.black,
                             ),
                             child: Text(
                               'Log in',
@@ -132,34 +132,3 @@ class _LoginPageState extends State<LoginPage> {
 }
 
 
-// import 'package:flutter/material.dart';
-
-// class LoginPage extends StatefulWidget {
-  
-//   @override
-//   State<LoginPage> createState()=> _LoginPageState();
-// }
-
-// class _LoginPageState extends State<LoginPage> {
-//   @override
-//   Widget build(BuildContext context){
-    
-//     return Container(
-//       decoration: const BoxDecoration(
-//         gradient: LinearGradient(
-//           begin: Alignment.topRight,
-//           end: Alignment.bottomLeft,
-//           colors:[
-//             Colors.blue,
-//             Colors.red,
-//           ], 
-//         )),
-//         child:Scaffold(
-//           backgroundColor:Colors.transparent,
-//           body:_page(),
-//         ),
-//     );
- 
-//   }
-
-// }
