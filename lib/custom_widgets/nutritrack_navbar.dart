@@ -8,7 +8,6 @@ class NutriTrackNavBar extends StatelessWidget {
     super.key,
   });
 
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NavigationCubit, NavigationState>(
@@ -75,4 +74,3 @@ class NutriTrackNavBar extends StatelessWidget {
     );
   }
 }
-

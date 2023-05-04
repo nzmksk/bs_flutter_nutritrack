@@ -1,5 +1,7 @@
 class BrandedFoodNutritionModel {
   String? foodName;
+  num? servingAmount;
+  String? meal;
   num? servingQuantity;
   String? servingUnit;
   num? servingWeight;
@@ -21,6 +23,8 @@ class BrandedFoodNutritionModel {
 
   BrandedFoodNutritionModel({
     this.foodName,
+    this.servingAmount,
+    this.meal,
     this.servingQuantity,
     this.servingUnit,
     this.servingWeight,
@@ -43,6 +47,8 @@ class BrandedFoodNutritionModel {
 
   BrandedFoodNutritionModel.fromJson(Map<String, dynamic> json) {
     foodName = json['food_name'];
+    servingAmount = json['serving_amount'] ?? 1;
+    meal = json['meal'];
     servingQuantity = json['serving_qty'];
     servingUnit = json['serving_unit'];
     servingWeight = json['serving_weight_grams'];
@@ -66,6 +72,8 @@ class BrandedFoodNutritionModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{
       'food_name': foodName,
+      'serving_amount': servingAmount,
+      'meal': meal,
       'serving_qty': servingQuantity,
       'serving_unit': servingUnit,
       'serving_weight_grams': servingWeight,
