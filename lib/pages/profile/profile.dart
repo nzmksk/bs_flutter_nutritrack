@@ -1,10 +1,10 @@
-
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _ProfilePageState createState() => _ProfilePageState();
 }
 
@@ -25,24 +25,26 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          SizedBox(height: 50),
+          const SizedBox(height: 50),
           Expanded(
             child: Container(
               decoration: BoxDecoration(
-                color: Color(0xFFFEFEFE),
-                borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+                color: const Color(0xFFFEFEFE),
+                borderRadius:
+                    const BorderRadius.vertical(top: Radius.circular(30)),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.1),
                     spreadRadius: 1,
                     blurRadius: 5,
-                    offset: Offset(0, -3),
+                    offset: const Offset(0, -3),
                   ),
                 ],
               ),
@@ -51,24 +53,24 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
+                      children: const [
                         Icon(Icons.menu, color: Colors.black, size: 32),
                         Icon(Icons.settings, color: Colors.black, size: 32),
                       ],
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     const Center(
                       child: CircleAvatar(
                         radius: 70,
-                        backgroundImage: NetworkImage('https://m.media-amazon.com/images/I/41jLBhDISxL._SY355_.jpg'),
-
+                        backgroundImage: NetworkImage(
+                            'https://m.media-amazon.com/images/I/41jLBhDISxL._SY355_.jpg'),
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Text(
+                    const SizedBox(height: 20),
+                    const Text(
                       'My Profile',
                       style: TextStyle(
                         fontSize: 28,
@@ -76,10 +78,10 @@ class _ProfilePageState extends State<ProfilePage> {
                         color: Colors.black,
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     TextFormField(
                       controller: _nameController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Name',
                         labelStyle: TextStyle(color: Colors.grey),
                         enabledBorder: OutlineInputBorder(
@@ -92,8 +94,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Text(
+                    const SizedBox(height: 20),
+                    const Text(
                       'Calculate your BMI',
                       style: TextStyle(
                         fontSize: 20,
@@ -101,13 +103,13 @@ class _ProfilePageState extends State<ProfilePage> {
                         color: Colors.black,
                       ),
                     ),
-                    SizedBox(height: 10),
-                    Divider(color: Colors.grey),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
+                    const Divider(color: Colors.grey),
+                    const SizedBox(height: 10),
                     TextFormField(
                       controller: _heightController,
                       keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Height (meters)',
                         labelStyle: TextStyle(color: Colors.grey),
                         enabledBorder: OutlineInputBorder(
@@ -120,11 +122,11 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     TextFormField(
                       controller: _weightController,
                       keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Weight',
                         labelStyle: TextStyle(color: Colors.grey),
                         enabledBorder: OutlineInputBorder(
@@ -137,16 +139,16 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: calBMI,
-                      child: Text('Calculate BMI'),
+                      child: const Text('Calculate BMI'),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     if (_bmiResult != null)
                       Text(
                         'Your BMI is ${_bmiResult!.toStringAsFixed(2)}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
                           color: Colors.black,

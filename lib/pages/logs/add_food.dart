@@ -102,7 +102,6 @@
 //   }
 // }
 
-
 import 'package:flutter/material.dart';
 
 class AddFood extends StatelessWidget {
@@ -133,7 +132,7 @@ class AddFood extends StatelessWidget {
               ),
               textAlign: TextAlign.center,
             ),
-            
+
             //Image container
             const SizedBox(height: 16),
             Container(
@@ -154,7 +153,7 @@ class AddFood extends StatelessWidget {
             ),
 
             //input container
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
@@ -176,7 +175,7 @@ class AddFood extends StatelessWidget {
                     TextField(
                       decoration: InputDecoration(
                         labelText: 'Calories',
-                        labelStyle: TextStyle(
+                        labelStyle: const TextStyle(
                           color: Colors.grey,
                           fontWeight: FontWeight.bold,
                         ),
@@ -221,7 +220,7 @@ class AddFood extends StatelessWidget {
                     //       borderRadius: BorderRadius.circular(50.0),
                     //     ),
                     //   ),
-                      
+
                     //   items: const [
                     //     DropdownMenuItem(
                     //       value: 'breakfast',
@@ -243,9 +242,7 @@ class AddFood extends StatelessWidget {
                     //add button
                     const SizedBox(height: 24),
                     ElevatedButton(
-                      onPressed: () {
-                        
-                      },
+                      onPressed: () {},
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size(200, 50),
                         shape: RoundedRectangleBorder(
