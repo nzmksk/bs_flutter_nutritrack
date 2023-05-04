@@ -1,3 +1,5 @@
+export 'account/login_page.dart';
+export 'account/signup_page.dart';
 export 'exercise/exercise_page.dart';
 export 'logs/add_exercise.dart';
 export 'logs/add_food.dart';
@@ -5,8 +7,5 @@ export 'logs/logs_page.dart';
 export 'logs/nutrition_details.dart';
 export 'nutrition/nutrition_page.dart';
 export 'nutrition/nutrition_info.dart';
-export 'profile/profile_page.dart';
-export 'summary/summary_page.dart';
-export 'account/login_page.dart';
-export 'account/signup_page.dart';
 export 'profile/profile.dart';
+export 'summary/summary_page.dart';
