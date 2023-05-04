@@ -1,22 +1,13 @@
 import 'dart:convert';
-import 'dart:math' as math;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
+import '../../constants/constants.dart';
+import '../../custom_widgets/custom_widgets.dart';
 import '../../models/models.dart';
-
-enum MealLabel {
-  breakfast('Breakfast'),
-  lunch('Lunch'),
-  dinner('Dinner');
-
-  const MealLabel(this.label);
-  final String label;
-}
 
 class NutritionInfo extends StatefulWidget {
   final BrandedFoodItemModel brandedFoodItem;
@@ -560,55 +551,14 @@ class _NutritionInfoState extends State<NutritionInfo> {
 Future addCalorie(BrandedFoodNutritionModel foodItem, String selectedMeal,
     num servingAmount) async {
   // Reference to document
-  final docAddCalorie =
-      FirebaseFirestore.instance.collection('calorie-intake').doc();
+  final docFoodLog = FirebaseFirestore.instance
+      .collection('calorie-intake')
+      .doc('${foodItem.itemId}');
 
   final json = foodItem.toJson();
   json['meal'] = selectedMeal;
   json['serving_amount'] = servingAmount;
 
   // Create document and write data to Firebase
-  await docAddCalorie.set(json);
-}
-
-class DecimalTextInputFormatter extends TextInputFormatter {
-  DecimalTextInputFormatter({required this.decimalRange})
-      // ignore: unnecessary_null_comparison
-      : assert((decimalRange == null || decimalRange > 0));
-
-  final int decimalRange;
-
-  @override
-  TextEditingValue formatEditUpdate(
-    TextEditingValue oldValue,
-    TextEditingValue newValue,
-  ) {
-    TextSelection newSelection = newValue.selection;
-    String truncated = newValue.text;
-
-    // ignore: unnecessary_null_comparison
-    if (decimalRange != null) {
-      String value = newValue.text;
-
-      if (value.contains('.') &&
-          value.substring(value.indexOf('.') + 1).length > decimalRange) {
-        truncated = oldValue.text;
-        newSelection = oldValue.selection;
-      } else if (value == '.') {
-        truncated = '0.';
-
-        newSelection = newValue.selection.copyWith(
-          baseOffset: math.min(truncated.length, truncated.length + 1),
-          extentOffset: math.min(truncated.length, truncated.length + 1),
-        );
-      }
-
-      return TextEditingValue(
-        text: truncated,
-        selection: newSelection,
-        composing: TextRange.empty,
-      );
-    }
-    return newValue;
-  }
+  await docFoodLog.set(json);
 }

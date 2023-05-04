@@ -37,9 +37,9 @@ class LogsPage extends StatelessWidget {
       BuildContext context, BrandedFoodNutritionModel foodItem) {
     return Card(
       child: ListTile(
-        title: Text(foodItem.foodName!),
+        title: Text('${foodItem.foodName!} (x${foodItem.servingAmount})'),
         subtitle: Text(
-          '${foodItem.totalCalories} kcal',
+          '${foodItem.totalCalories! * foodItem.servingAmount!} kcal intake',
           style: const TextStyle(color: Colors.green),
         ),
         onTap: () {
