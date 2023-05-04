@@ -69,6 +69,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       SizedBox(height: 30),
                       TextFormField(
                         // validator: (input) {},
+                        keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                           labelText: 'Email',
                           prefixIcon: Icon(Icons.email),
@@ -82,6 +83,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       TextFormField(
                         // validator: (input) {},
                         obscureText: !_obscureText,
+                        maxLength: 10,
                         decoration: InputDecoration(
                           labelText: 'Password',
                           prefixIcon: Icon(Icons.lock),
@@ -111,7 +113,6 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                       SizedBox(height: 30),
                       
-        
                       GestureDetector(
                         onTap: () {
                           Navigator.push(
