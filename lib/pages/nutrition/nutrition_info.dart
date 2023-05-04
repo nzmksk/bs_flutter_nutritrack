@@ -76,7 +76,9 @@ class _NutritionInfoState extends State<NutritionInfo> {
   Stream<num> amountListener(TextEditingController controller) async* {
     while (true) {
       await Future.delayed(const Duration(milliseconds: 100));
-      yield num.parse(controller.value.text);
+      if (controller.value.text != null || controller.value.text != '') {
+        yield num.parse(controller.value.text);
+      }
     }
   }
 
