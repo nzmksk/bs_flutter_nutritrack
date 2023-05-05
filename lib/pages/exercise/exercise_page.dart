@@ -34,7 +34,7 @@ class _ExercisePageState extends State<ExercisePage> {
       headers: {
         'x-app-id': appId,
         'x-app-key': apiKey,
-        'Content-Type': 'application/json',
+        
       },
       body: jsonEncode({'query': query}),
     );
