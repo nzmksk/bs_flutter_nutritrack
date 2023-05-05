@@ -28,7 +28,7 @@ class RootPage extends StatelessWidget {
             case NavBarItem.summary:
               return const SummaryPage();
             case NavBarItem.profile:
-              return const LoginPage();
+              return const ProfilePage();
           }
         },
       ),
