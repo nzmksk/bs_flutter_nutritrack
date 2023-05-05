@@ -31,7 +31,7 @@ class _ExercisePageState extends State<ExercisePage> {
       headers: {
         'x-app-id': appId,
         'x-app-key': apiKey,
-        'Content-Type': 'application/json',
+        
       },
       body: json.encode({'query': _exerciseQuery}),
     );
@@ -121,6 +121,7 @@ class _ExercisePageState extends State<ExercisePage> {
             if (_isLoading)
               Center(child: CircularProgressIndicator())
             else if (_exerciseQuery != null && _exerciseQuery.isNotEmpty)
+              
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
@@ -150,17 +151,17 @@ class _ExercisePageState extends State<ExercisePage> {
                         ),
                         SizedBox(height: 8.0),
                         Text(
-                          'Exercise: ${_exerciseDetails['exercises'][0]['name']}',
+                          'Exercise: ${_exerciseDetails['exercises']['name']}',
                           style: TextStyle(fontSize: 16.0),
                         ),
                         SizedBox(height: 8.0),
                         Text(
-                          'Duration: ${_exerciseDetails['exercises'][0]['duration_min']} minutes',
+                          'Duration: ${_exerciseDetails['exercises']['duration_min']} minutes',
                           style: TextStyle(fontSize: 16.0),
                         ),
                         SizedBox(height: 8.0),
                         Text(
-                          'Calories Burned: ${_exerciseDetails['exercises'][0]['nf_calories']} kcal',
+                          'Calories Burned: ${_exerciseDetails['exercises']['nf_calories']} kcal',
                           style: TextStyle(fontSize: 16.0),
                         ),
                         SizedBox(height: 8.0),

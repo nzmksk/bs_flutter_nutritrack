@@ -1,16 +1,31 @@
-# bs_flutter_nutritrack
+# About NutriTrack
 
-A new Flutter project.
+NutriTrack is a Flutter project that allow users to keep track of their daily calories and search for food nutritions. 
+We use Nutritionix API with 3 different endpoints:
+-/v2/search/item -> Detailed nutrition facts about a specific food item
+-/v2/search/instant -> Fetch list of data based on user's query
+-/v2/natural/exercise -> Details on exercise activities provided by natural language processing (NLP) API
+
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+1. Clone the repository to local machines
+2. Open project in Android Studio or Visual Studio Code
+3. Run the following command to install the required packages:
+   -flutter pub get
+4. Run the project using the following command:
+   -flutter run
 
-A few resources to get you started if this is your first Flutter project:
+## Features
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Search for any food from the API with more than 600k foods.
+- Add, view, edit, and delete the food calorie logs.
+- Search for exercise types.
+- Add, view, edit, and delete logs of calorie burnt (incomplete).
+- Instant add calorie intake (incomplete).
+- Search for branded foods with barcode scanner (incomplete).
+- Summary of the calorie logs (incomplete).
+- Profile page for user (incomplete).
+- Sign up and login page (incomplete).
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+* NOTE: This app was developed within 5 working days, hence the reason it has limited features.

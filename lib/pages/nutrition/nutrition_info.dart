@@ -13,7 +13,6 @@ enum MealLabel {
   breakfast('Breakfast'),
   lunch('Lunch'),
   dinner('Dinner');
-
   const MealLabel(this.label);
   final String label;
 }
@@ -136,7 +135,7 @@ class _NutritionInfoState extends State<NutritionInfo> {
                       color: Colors.grey.withOpacity(0.5),
                       spreadRadius: 2,
                       blurRadius: 5,
-                      offset: const Offset(0, 3),
+                      offset: const Offset(0, 3)
                     ),
                   ],
                 ),
@@ -149,6 +148,7 @@ class _NutritionInfoState extends State<NutritionInfo> {
                   ),
                 ),
               ),
+              
               const SizedBox(height: 15.0),
               Container(
                 padding: const EdgeInsets.all(10),
