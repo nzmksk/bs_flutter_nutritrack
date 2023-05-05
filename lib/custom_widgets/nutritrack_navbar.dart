@@ -8,7 +8,6 @@ class NutriTrackNavBar extends StatelessWidget {
     super.key,
   });
 
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NavigationCubit, NavigationState>(
@@ -38,8 +37,8 @@ class NutriTrackNavBar extends StatelessWidget {
           ],
           type: BottomNavigationBarType.fixed,
           currentIndex: state.currentIndex,
-          selectedFontSize: 18,
-          unselectedFontSize: 15,
+          selectedFontSize: 16,
+          unselectedFontSize: 13,
           selectedIconTheme: const IconThemeData(size: 30),
           unselectedIconTheme: const IconThemeData(size: 25),
           backgroundColor: Colors.indigo,
@@ -75,4 +74,3 @@ class NutriTrackNavBar extends StatelessWidget {
     );
   }
 }
-

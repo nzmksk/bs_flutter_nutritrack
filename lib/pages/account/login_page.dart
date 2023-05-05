@@ -1,5 +1,6 @@
-import 'package:bs_flutter_nutritrack/pages/account/signup_page.dart';
 import 'package:flutter/material.dart';
+
+import '../pages.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -15,7 +16,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-         body: Stack(
+      body: Stack(
         children: [
           Opacity(
             opacity: 0.65, // Set opacity value between 0.0 to 1.0
@@ -30,21 +31,21 @@ class _LoginPageState extends State<LoginPage> {
             padding: const EdgeInsets.all(50),
             child: Container(
               decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.7), // set your desired background color here
-                  borderRadius: BorderRadius.circular(20.0),
-                
-                ),  
-                   child: Padding(
-              padding: const EdgeInsets.all(.0),
+                color: Colors.white
+                    .withOpacity(0.7), // set your desired background color here
+                borderRadius: BorderRadius.circular(20.0),
+              ),
               child: Center(
                 child: Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 45.0, vertical: 150.0),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 45.0,
+                    vertical: 150.0,
+                  ),
                   child: Form(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        Text(
+                      children: [
+                        const Text(
                           'Login',
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -52,33 +53,39 @@ class _LoginPageState extends State<LoginPage> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 50),
+                        const SizedBox(height: 50),
                         TextFormField(
                           validator: (input) {},
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Email',
                             prefixIcon: Icon(Icons.email),
                             contentPadding: EdgeInsets.all(16),
                             border: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(width: 25, color: Colors.black)),
+                              borderSide: BorderSide(
+                                width: 25,
+                                color: Colors.black,
+                              ),
+                            ),
                           ),
                         ),
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
                         TextFormField(
                           validator: (input) {},
                           // obscureText: !_passwordVisible,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Password',
                             prefixIcon: Icon(Icons.lock),
                             contentPadding: EdgeInsets.all(16),
                             border: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(width: 25, color: Colors.black)),
+                              borderSide: BorderSide(
+                                width: 25,
+                                color: Colors.black,
+                              ),
+                            ),
                           ),
                         ),
-                        SizedBox(height: 30),
-                        Container(
+                        const SizedBox(height: 30),
+                        SizedBox(
                           width: 50.0,
                           child: ElevatedButton(
                             onPressed: () {},
@@ -86,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                               backgroundColor: Colors.lightGreen,
                               foregroundColor: Colors.black,
                             ),
-                            child: Text(
+                            child: const Text(
                               'Log in',
                               style: TextStyle(
                                 fontSize: 16.0,
@@ -94,41 +101,36 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ),
                           ),
-                          
                         ),
-                         SizedBox(height: 30),
+                        const SizedBox(height: 30),
                         GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SignUpPage(),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const SignUpPage(),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            "Don't have an account? Sign up",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
                             ),
-                          );
-                        },
-                       
-                        child: Text(
-                          "Already don't have an account? Sign up",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
                           ),
                         ),
-                      ),
                       ],
                     ),
                   ),
                 ),
               ),
             ),
-            ),
           )
         ],
-      )
+      ),
     );
   }
 }
-
-

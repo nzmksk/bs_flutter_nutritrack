@@ -1,21 +1,13 @@
 import 'dart:convert';
-import 'dart:math' as math;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
+import '../../constants/constants.dart';
+import '../../custom_widgets/custom_widgets.dart';
 import '../../models/models.dart';
-
-enum MealLabel {
-  breakfast('Breakfast'),
-  lunch('Lunch'),
-  dinner('Dinner');
-  const MealLabel(this.label);
-  final String label;
-}
 
 class NutritionInfo extends StatefulWidget {
   final BrandedFoodItemModel brandedFoodItem;
@@ -24,6 +16,7 @@ class NutritionInfo extends StatefulWidget {
       : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _NutritionInfoState createState() => _NutritionInfoState();
 }
 
@@ -32,15 +25,15 @@ class _NutritionInfoState extends State<NutritionInfo> {
   final TextEditingController _mealController = TextEditingController();
   final TextEditingController _amountController =
       TextEditingController(text: '1.00');
-  MealLabel? selectedMeal;
+  String? selectedMeal;
   num amountToDisplay = 1;
 
   late List<BrandedFoodNutritionModel> brandedFoodNutrition = [];
 
   bool _isLoading = false;
 
-  String appId = dotenv.env['NUTRITIONIX_APP_ID']!;
-  String apiKey = dotenv.env['NUTRITIONIX_API_KEY']!;
+  String appId = dotenv.env['NUTRITIONIX_APP_ID3']!;
+  String apiKey = dotenv.env['NUTRITIONIX_API_KEY3']!;
 
   Future<void> getNutritionInfo(String itemId) async {
     setState(() {
@@ -60,22 +53,34 @@ class _NutritionInfoState extends State<NutritionInfo> {
       _isLoading = false;
     });
 
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body)['foods'];
-      setState(() {
-        brandedFoodNutrition = (data as List)
-            .map((food) => BrandedFoodNutritionModel.fromJson(food))
-            .toList();
-      });
-    } else {
-      throw Exception('No data found');
+    switch (response.statusCode) {
+      case 200:
+        final data = jsonDecode(response.body)['foods'];
+        setState(() {
+          brandedFoodNutrition = (data as List)
+              .map((food) => BrandedFoodNutritionModel.fromJson(food))
+              .toList();
+        });
+        break;
+      case 400:
+        throw Exception('Invalid request/input parameters');
+      case 401:
+        throw Exception(
+            'Invalid auth keys / Reaching API limit / Missing tokens');
+      case 404:
+        throw Exception('Data not found');
+      case 500:
+        throw Exception('Internal server error');
+      default:
+        throw Exception('Unknown error');
     }
   }
 
   Stream<num> amountListener(TextEditingController controller) async* {
     while (true) {
       await Future.delayed(const Duration(milliseconds: 100));
-      if (controller.value.text != null || controller.value.text != '') {
+      if (controller.value.text.isNotEmpty &&
+          (num.tryParse(controller.value.text) ?? 0) > 0) {
         yield num.parse(controller.value.text);
       }
     }
@@ -85,11 +90,25 @@ class _NutritionInfoState extends State<NutritionInfo> {
   void initState() {
     getNutritionInfo(widget.brandedFoodItem.itemId!);
     _amountController.addListener(() {
-      setState(() {
-        amountToDisplay = num.parse(_amountController.value.text);
-      });
+      if (_amountController.value.text.isNotEmpty &&
+          (num.tryParse(_amountController.value.text) ?? 0) > 0) {
+        setState(() {
+          amountToDisplay = num.parse(_amountController.value.text);
+        });
+      } else if (_amountController.value.text.isEmpty ||
+          (num.tryParse(_amountController.value.text) ?? 0) < 0.01) {
+        setState(() {
+          amountToDisplay = 1;
+        });
+      }
     });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _amountController.dispose();
+    super.dispose();
   }
 
   //UI part
@@ -194,227 +213,27 @@ class _NutritionInfoState extends State<NutritionInfo> {
                         stream: amountListener(_amountController),
                         builder: (context, snapshot) {
                           if (snapshot.hasError) {
-                            return Column(
-                              children: [
-                                ListTile(
-                                  dense: true,
-                                  title: const Text(
-                                    'Total Calories',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 22,
-                                    ),
-                                  ),
-                                  trailing: Text(
-                                    '${foodItem.totalCalories} kcal',
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 22,
-                                    ),
-                                  ),
-                                ),
-                                const Divider(
-                                  indent: 16,
-                                  endIndent: 16,
-                                  thickness: 2,
-                                  color: Colors.black,
-                                ),
-                                ListTile(
-                                  dense: true,
-                                  title: const Text(
-                                    'Total Fat',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  trailing: Text(
-                                    '${foodItem.totalFat} g',
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                                const Divider(
-                                  indent: 16,
-                                  endIndent: 16,
-                                  thickness: 1,
-                                  color: Colors.black,
-                                ),
-                                ListTile(
-                                  dense: true,
-                                  title: const Text(
-                                    'Saturated fat',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  trailing: Text(
-                                    '${foodItem.saturatedFat} g',
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                                const Divider(
-                                  indent: 16,
-                                  endIndent: 16,
-                                  thickness: 1,
-                                  color: Colors.black,
-                                ),
-                                ListTile(
-                                  dense: true,
-                                  title: const Text(
-                                    'Cholesterol',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  trailing: Text(
-                                    '${foodItem.cholesterol} mg',
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                                const Divider(
-                                  indent: 16,
-                                  endIndent: 16,
-                                  thickness: 1,
-                                  color: Colors.black,
-                                ),
-                                ListTile(
-                                  dense: true,
-                                  title: const Text(
-                                    'Sodium',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  trailing: Text(
-                                    '${foodItem.sodium} mg',
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                                const Divider(
-                                  indent: 16,
-                                  endIndent: 16,
-                                  thickness: 1,
-                                  color: Colors.black,
-                                ),
-                                ListTile(
-                                  dense: true,
-                                  title: const Text(
-                                    'Total Carbohydrates',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  trailing: Text(
-                                    '${foodItem.totalCarbohydrates} g',
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                                const Divider(
-                                  indent: 16,
-                                  endIndent: 16,
-                                  thickness: 1,
-                                  color: Colors.black,
-                                ),
-                                ListTile(
-                                  dense: true,
-                                  title: const Text(
-                                    'Dietary fiber',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  trailing: Text(
-                                    '${foodItem.dietaryFiber} g',
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                                const Divider(
-                                  indent: 16,
-                                  endIndent: 16,
-                                  thickness: 1,
-                                  color: Colors.black,
-                                ),
-                                ListTile(
-                                  dense: true,
-                                  title: const Text(
-                                    'Sugars',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  trailing: Text(
-                                    '${foodItem.sugars} g',
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                                const Divider(
-                                  indent: 16,
-                                  endIndent: 16,
-                                  thickness: 1,
-                                  color: Colors.black,
-                                ),
-                                ListTile(
-                                  dense: true,
-                                  title: const Text(
-                                    'Protein',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  trailing: Text(
-                                    '${foodItem.protein} g',
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                                const Divider(
-                                  indent: 16,
-                                  endIndent: 16,
-                                  thickness: 1,
-                                  color: Colors.black,
-                                ),
-                                ListTile(
-                                  dense: true,
-                                  title: const Text(
-                                    'Potassium',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  trailing: Text(
-                                    '${foodItem.potassium} mg',
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                                const Divider(
-                                  indent: 16,
-                                  endIndent: 16,
-                                  thickness: 1,
-                                  color: Colors.black,
-                                ),
-                              ],
+                            return const Center(
+                              child: Text('Could not load information'),
                             );
                           } else {
-                            final multipliers = snapshot.data ?? 1;
                             final calories =
-                                foodItem.totalCalories! * multipliers;
+                                foodItem.totalCalories! * amountToDisplay;
+                            final totalFat =
+                                foodItem.totalFat! * amountToDisplay;
+                            final saturatedFat =
+                                foodItem.saturatedFat! * amountToDisplay;
+                            final cholesterol =
+                                foodItem.cholesterol! * amountToDisplay;
+                            final totalCarbohydrates =
+                                foodItem.totalCarbohydrates! * amountToDisplay;
+                            final dietaryFiber =
+                                foodItem.dietaryFiber! * amountToDisplay;
+                            final sugars = foodItem.sugars! * amountToDisplay;
+                            final sodium = foodItem.sodium! * amountToDisplay;
+                            final protein = foodItem.protein! * amountToDisplay;
+                            final potassium =
+                                foodItem.potassium! * amountToDisplay;
 
                             return Column(
                               children: [
@@ -451,7 +270,7 @@ class _NutritionInfoState extends State<NutritionInfo> {
                                     ),
                                   ),
                                   trailing: Text(
-                                    '${foodItem.totalFat} g',
+                                    '$totalFat g',
                                     style: const TextStyle(
                                       color: Colors.black,
                                     ),
@@ -472,7 +291,7 @@ class _NutritionInfoState extends State<NutritionInfo> {
                                     ),
                                   ),
                                   trailing: Text(
-                                    '${foodItem.saturatedFat} g',
+                                    '$saturatedFat g',
                                     style: const TextStyle(
                                       color: Colors.black,
                                     ),
@@ -493,7 +312,7 @@ class _NutritionInfoState extends State<NutritionInfo> {
                                     ),
                                   ),
                                   trailing: Text(
-                                    '${foodItem.cholesterol} mg',
+                                    '$cholesterol mg',
                                     style: const TextStyle(
                                       color: Colors.black,
                                     ),
@@ -514,7 +333,7 @@ class _NutritionInfoState extends State<NutritionInfo> {
                                     ),
                                   ),
                                   trailing: Text(
-                                    '${foodItem.sodium} mg',
+                                    '$sodium mg',
                                     style: const TextStyle(
                                       color: Colors.black,
                                     ),
@@ -535,7 +354,7 @@ class _NutritionInfoState extends State<NutritionInfo> {
                                     ),
                                   ),
                                   trailing: Text(
-                                    '${foodItem.totalCarbohydrates} g',
+                                    '$totalCarbohydrates g',
                                     style: const TextStyle(
                                       color: Colors.black,
                                     ),
@@ -556,7 +375,7 @@ class _NutritionInfoState extends State<NutritionInfo> {
                                     ),
                                   ),
                                   trailing: Text(
-                                    '${foodItem.dietaryFiber} g',
+                                    '$dietaryFiber g',
                                     style: const TextStyle(
                                       color: Colors.black,
                                     ),
@@ -577,7 +396,7 @@ class _NutritionInfoState extends State<NutritionInfo> {
                                     ),
                                   ),
                                   trailing: Text(
-                                    '${foodItem.sugars} g',
+                                    '$sugars g',
                                     style: const TextStyle(
                                       color: Colors.black,
                                     ),
@@ -598,7 +417,7 @@ class _NutritionInfoState extends State<NutritionInfo> {
                                     ),
                                   ),
                                   trailing: Text(
-                                    '${foodItem.protein} g',
+                                    '$protein g',
                                     style: const TextStyle(
                                       color: Colors.black,
                                     ),
@@ -619,7 +438,7 @@ class _NutritionInfoState extends State<NutritionInfo> {
                                     ),
                                   ),
                                   trailing: Text(
-                                    '${foodItem.potassium} mg',
+                                    '$potassium mg',
                                     style: const TextStyle(
                                       color: Colors.black,
                                     ),
@@ -655,8 +474,9 @@ class _NutritionInfoState extends State<NutritionInfo> {
                             label: const Text('Meal'),
                             dropdownMenuEntries: mealEntries,
                             onSelected: (MealLabel? meal) {
+                              _mealController.text = meal?.label ?? '';
                               setState(() {
-                                selectedMeal = meal;
+                                selectedMeal = _mealController.text;
                               });
                             },
                           ),
@@ -678,23 +498,45 @@ class _NutritionInfoState extends State<NutritionInfo> {
                                 DecimalTextInputFormatter(decimalRange: 2),
                               ],
                               controller: _amountController,
+                              validator: (value) {
+                                if (value == '' ||
+                                    (num.tryParse(value!) ?? 0) < 0.01) {
+                                  return 'Amount cannot be 0 or empty.';
+                                }
+
+                                return null;
+                              },
                             ),
                           ),
                         ],
                       ),
                     ),
-                    ElevatedButton(
-                      onPressed: () {
-                        addCalorie(foodItem);
-                        const snackBar = SnackBar(
-                          content: Text('Added to calorie intake!'),
-                        );
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              selectedMeal ??= MealLabel.breakfast.label;
+                              addCalorie(
+                                  foodItem, selectedMeal!, amountToDisplay);
+                              const snackBar = SnackBar(
+                                content: Text('Added to calorie intake!'),
+                              );
 
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        Navigator.of(context)
-                            .popUntil((route) => route.isFirst);
-                      },
-                      child: const Text('Add Food'),
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                              Navigator.of(context)
+                                  .popUntil((route) => route.isFirst);
+                            }
+                          },
+                          child: const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text('Add to Calorie Intake'),
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -707,51 +549,17 @@ class _NutritionInfoState extends State<NutritionInfo> {
   }
 }
 
-Future addCalorie(BrandedFoodNutritionModel foodItem) async {
+Future addCalorie(BrandedFoodNutritionModel foodItem, String selectedMeal,
+    num servingAmount) async {
   // Reference to document
-  final docAddCalorie =
-      FirebaseFirestore.instance.collection('calorie-intake').doc();
+  final docFoodLog = FirebaseFirestore.instance
+      .collection('calorie-intake')
+      .doc('${foodItem.itemId}');
+
+  final json = foodItem.toJson();
+  json['meal'] = selectedMeal;
+  json['serving_amount'] = servingAmount;
 
   // Create document and write data to Firebase
-  await docAddCalorie.set(foodItem.toJson());
-}
-
-class DecimalTextInputFormatter extends TextInputFormatter {
-  DecimalTextInputFormatter({required this.decimalRange})
-      : assert((decimalRange == null || decimalRange > 0));
-
-  final int decimalRange;
-
-  @override
-  TextEditingValue formatEditUpdate(
-    TextEditingValue oldValue,
-    TextEditingValue newValue,
-  ) {
-    TextSelection newSelection = newValue.selection;
-    String truncated = newValue.text;
-
-    if (decimalRange != null) {
-      String value = newValue.text;
-
-      if (value.contains('.') &&
-          value.substring(value.indexOf('.') + 1).length > decimalRange) {
-        truncated = oldValue.text;
-        newSelection = oldValue.selection;
-      } else if (value == '.') {
-        truncated = '0.';
-
-        newSelection = newValue.selection.copyWith(
-          baseOffset: math.min(truncated.length, truncated.length + 1),
-          extentOffset: math.min(truncated.length, truncated.length + 1),
-        );
-      }
-
-      return TextEditingValue(
-        text: truncated,
-        selection: newSelection,
-        composing: TextRange.empty,
-      );
-    }
-    return newValue;
-  }
+  await docFoodLog.set(json);
 }

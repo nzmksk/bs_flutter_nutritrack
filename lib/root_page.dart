@@ -50,17 +50,17 @@ class RootPage extends StatelessWidget {
                         );
                       },
                     ),
-                    NutriTrackActionButton(
-                      icon: const Icon(Icons.fitness_center_outlined),
+                    const NutriTrackActionButton(
+                      icon: Icon(Icons.fitness_center_outlined),
                       tooltip: 'Add calorie burnt',
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const AddExercise(),
-                          ),
-                        );
-                      },
+                      // onPressed: () {
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => const AddExercise(),
+                      //   ),
+                      // );
+                      // },
                     ),
                     const NutriTrackActionButton(
                       icon: Icon(Icons.monitor_weight_outlined),
